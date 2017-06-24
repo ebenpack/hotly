@@ -94,7 +94,6 @@ class Landing extends Component {
             return (
                 <ListItem
                     key={hotSpot.id}
-                    leftIcon={<FontIcon className="fa fa-fire" />}
                     primaryText={hotSpot.name}
                     secondaryText={secondaryText(hotSpot)}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
@@ -124,9 +123,9 @@ class Landing extends Component {
                             top: '60px'
                     }}
                 >
-                    <Tab label="Bars" value={0} />
-                    <Tab label="Night Clubs" value={1} />
-                    <Tab label="Cafes" value={2} />
+                    <Tab label="Bars" value={0} icon={<FontIcon className="fa fa-beer" />} />
+                    <Tab label="Night Clubs" value={1} icon={<FontIcon className="fa fa-glass" />} />
+                    <Tab label="Cafes" value={2} icon={<FontIcon className="fa fa-coffee" />} />
                 </Tabs>
                 <SwipeableViews
                     index={this.state.slideIndex}
