@@ -15,5 +15,6 @@ export default {
         secondaryTextColor: fade(fullWhite, 0.7),
         alternateTextColor: '#24A39A',
         canvasColor: '#303030',
+        shadowColor: '#303030',
     },
 };
