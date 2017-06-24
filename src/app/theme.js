@@ -21,7 +21,7 @@ export default {
         accent3Color: amber600,
         textColor: '#C58100',
         secondaryTextColor: fade(fullWhite, 0.7),
-        alternateTextColor: '#303030',
+        alternateTextColor: '#24A39A',
         canvasColor: '#303030',
         borderColor: fade(fullWhite, 0.3),
         disabledColor: fade(fullWhite, 0.3),
