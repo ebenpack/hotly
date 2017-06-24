@@ -20,29 +20,33 @@ class App extends Component {
         super(props);
 
         this.state = {
-            focus: consts.pages.LANDING_PAGE
+            focus: consts.pages.LANDING_PAGE,
+            focusParams: {}
         };
 
         this.updateFocus = this.updateFocus.bind(this);
     }
 
-    updateFocus(focus) {
-        this.setState({focus});
+    updateFocus(focus, params={}) {
+        this.setState({focus,
+            focusParams: params
+        });
     }
 
     render() {
-        const { focus } = this.state;
+        const { focus, focusParams } = this.state;
 
+        // Router
         const currentPage = () => {
             switch (focus) {
                 case consts.pages.LANDING_PAGE: {
-                    return <Landing updateFocus={this.updateFocus} />;
+                    return <Landing updateFocus={this.updateFocus} params={focusParams} />;
                 }
                 case consts.pages.DETAIL_PAGE: {
-                    return <Detail updateFocus={this.updateFocus} />;
+                    return <Detail updateFocus={this.updateFocus} params={focusParams} />;
                 }
                 case consts.pages.CHECKIN_PAGE: {
-                    return <CheckIn updateFocus={this.updateFocus} />;
+                    return <CheckIn updateFocus={this.updateFocus} params={focusParams} />;
                 }
                 default:
                     return <h2>PAGE NOT FOUND</h2>;

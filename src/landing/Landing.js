@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
-import {List, ListItem, makeSelectable} from 'material-ui/List';
+import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import Subheader from 'material-ui/Subheader';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -11,38 +10,6 @@ import consts from '../consts';
 
 import './Landing.css';
 
-
-let SelectableList = makeSelectable(List);
-
-function wrapState(ComposedComponent) {
-    return class SelectableList extends Component {
-
-        componentWillMount() {
-            this.setState({
-                selectedIndex: this.props.defaultValue,
-            });
-        }
-
-        handleRequestChange = (event, index) => {
-            this.setState({
-                selectedIndex: index,
-            });
-        };
-
-        render() {
-            return (
-                <ComposedComponent
-                    value={this.state.selectedIndex}
-                    onChange={this.handleRequestChange}
-                >
-                    {this.props.children}
-                </ComposedComponent>
-            );
-        }
-    };
-}
-
-SelectableList = wrapState(SelectableList);
 
 class Landing extends Component {
     constructor(props) {
@@ -55,10 +22,10 @@ class Landing extends Component {
         this.handleFocusChange = this.handleFocusChange.bind(this);
     }
 
-    handleFocusChange(focus) {
+    handleFocusChange(focus, params={}) {
         return () => {
             const { updateFocus } = this.props;
-            updateFocus(focus);
+            updateFocus(focus, params);
         };
     }
 
@@ -71,7 +38,7 @@ class Landing extends Component {
                     title="What's Hot?"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
-                <SelectableList defaultValue={3}>
+                <List>
                     <ListItem
                         value={1}
                         primaryText="Brendan Lim"
@@ -81,30 +48,30 @@ class Landing extends Component {
                                 value={2}
                                 primaryText="Grace Ng"
                                 leftAvatar={<Avatar src="images/uxceo-128.jpg"/>}
-                                onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
+                                onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {value: 2})}
                             />,
                         ]}
-                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {value: 1})}
                     />
                     <ListItem
                         value={3}
                         primaryText="Kerem Suer"
                         leftAvatar={<Avatar src="images/kerem-128.jpg"/>}
-                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {value: 3})}
                     />
                     <ListItem
                         value={4}
                         primaryText="Eric Hoffman"
                         leftAvatar={<Avatar src="images/kolage-128.jpg"/>}
-                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {value: 4})}
                     />
                     <ListItem
                         value={5}
                         primaryText="Raquel Parrado"
                         leftAvatar={<Avatar src="images/raquelromanp-128.jpg"/>}
-                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {value: 5})}
                     />
-                </SelectableList>
+                </List>
                 <FloatingActionButton secondary={true}
                     style={{float: 'right', marginRight: 20}}
                     onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
