@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 import './App.css';
+import Landing from './Landing';
+import Detail from './Detail';
+import Checkin from './CheckIn';
+
+
+const LANDING_PAGE = 'landing';
+const DETAIL_PAGE = 'detail';
+const CHECKIN_PAGE = 'checkin';
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            focus: LANDING_PAGE
+        };
+    }
+
+    render() {
+        const { focus } = this.state;
+        // const currentPage = (<Landing />);
+
+        return (
+            <Landing />
+        );
+    }
 }
 
 export default App;
