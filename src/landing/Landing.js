@@ -8,6 +8,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 
 import consts from '../consts';
+import { HotnessDisplay } from '../hotness/Hotness';
 
 import './Landing.css';
 
@@ -83,13 +84,19 @@ class Landing extends Component {
     render() {
         const sortedHotSpots = this.hotSort(this.state.hotSpots);
 
+        const secondaryText = (hotSpot) => (
+            <span>
+                {hotSpot.vicinity} - <HotnessDisplay rating={hotSpot.rating}/>
+            </span>
+        );
+
         const listItems = sortedHotSpots.map((hotSpot) => {
             return (
                 <ListItem
                     key={hotSpot.id}
                     leftIcon={<FontIcon className="fa fa-fire" />}
                     primaryText={hotSpot.name}
-                    secondaryText={`${hotSpot.vicinity} - ${hotSpot.rating}`}
+                    secondaryText={secondaryText(hotSpot)}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
                     style= {{
                         position: 'relative',
