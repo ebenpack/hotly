@@ -55,19 +55,19 @@ class Landing extends Component {
     }
 
     handleChange = (value) => {
-        let slideIndex = 0;
-        if (value === 'bar') {
-            slideIndex = 0;
-        } else if (value === 'night_club') {
-            slideIndex = 1;
-        } else if (value === 'cafe') {
-            slideIndex = 2;
+        let type = '';
+        if (value == 0) {
+            type = 'bar';
+        } else if (value == 1) {
+            type = 'night_club';
+        } else if (value == 2) {
+            type = 'cafe';
         }
         this.setState({
-            type: value,
-            slideIndex: slideIndex
+            type: type,
+            slideIndex: value
         });
-        this.locationSearch(value);
+        this.locationSearch(type);
     };
 
     render() {
@@ -94,21 +94,6 @@ class Landing extends Component {
                         position: 'fixed'
                     }}
                 />
-                {/* <Tabs */}
-                {/*     value={this.state.value} */}
-                {/*     onChange={this.handleChange} */}
-                {/*     style= {{ */}
-                {/*         position: 'relative', */}
-                {/*             top: '60px' */}
-                {/*     }} */}
-                {/* > */}
-                {/*     <Tab label="Bars" value="bar"> */}
-                {/*     </Tab> */}
-                {/*     <Tab label="Night Clubs" value="night_club"> */}
-                {/*     </Tab> */}
-                {/*     <Tab label="Coffee Shops" value="cafe"> */}
-                {/*     </Tab> */}
-                {/* </Tabs> */}
 
                 <Tabs
                     onChange={this.handleChange}
@@ -118,25 +103,25 @@ class Landing extends Component {
                             top: '60px'
                     }}
                 >
-                    <Tab label="Bars" value={'bar'} />
-                    <Tab label="Night Clubs" value={'night_club'} />
-                    <Tab label="Cafes" value={'cafe'} />
+                    <Tab label="Bars" value={0} />
+                    <Tab label="Night Clubs" value={1} />
+                    <Tab label="Cafes" value={2} />
                 </Tabs>
                 <SwipeableViews
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
                 >
-                    <div>
+                    <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
                     </div>
-                    <div >
+                    <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
-                    </div>
-                    <div >
+                    </div >
+                    <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
