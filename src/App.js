@@ -5,6 +5,21 @@ import Detail from './Detail';
 import CheckIn from './CheckIn';
 import consts from './consts';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+
+const customTheme = {
+    palette: {
+        primary1Color: 'red',
+        primary2Color: 'blue',
+        primary3Color: 'green'
+    }
+};
+
+const theme = getMuiTheme(customTheme);
+injectTapEventPlugin();
 
 class App extends Component {
     constructor(props) {
@@ -41,9 +56,11 @@ class App extends Component {
         };
 
         return (
-            <div>
-                { currentPage() }
-            </div>
+            <MuiThemeProvider muiTheme={theme}>
+                <div>
+                    { currentPage() }
+                </div>
+            </MuiThemeProvider>
         );
     }
 }
