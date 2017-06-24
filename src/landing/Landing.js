@@ -7,6 +7,7 @@ import FontIcon from 'material-ui/FontIcon';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
+import Disco from './Disco';
 
 import consts from '../consts';
 import { HotnessDisplay } from '../hotness/Hotness';
@@ -124,8 +125,8 @@ class Landing extends Component {
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
                 >
-                <Tab icon={<FontIcon className="fa fa-beer" />} value={0} />
-                <Tab icon={<FontIcon className="fa fa-glass" />} value={1} />
+                <Tab icon={<FontIcon className="fa fa-glass" />} value={0} />
+                <Tab icon={<Disco />} value={1} />
                 <Tab icon={<FontIcon className="fa fa-coffee" />} value={2} />
                 </Tabs>
                 {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
