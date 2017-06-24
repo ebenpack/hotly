@@ -50,7 +50,6 @@ class Detail extends Component {
         const {params} = this.props;
         const {deets} = this.state;
         // TODO: Some loading spinner bullshit
-        debugger
         return (
             <div className="Detail" style={{
                 position: 'relative',
