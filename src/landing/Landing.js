@@ -4,7 +4,6 @@ import {List, ListItem} from 'material-ui/List';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import hotSpots from './LandingTempData'
 import consts from '../consts';
 
 import './Landing.css';
@@ -32,33 +31,33 @@ class Landing extends Component {
 
     }
 
-        componentDidMount() {
+    componentDidMount() {
 
-            const {location, map} = this.props;
-            const service = new window.google.maps.places.PlacesService(map);
-            service.nearbySearch({
-                location: location,
-                type: 'bar',
-                rankBy: window.google.maps.places.RankBy.DISTANCE
-            }, callback.bind(this));
+        const {location, map} = this.props;
+        const service = new window.google.maps.places.PlacesService(map);
+        service.nearbySearch({
+            location: location,
+            type: 'bar',
+            rankBy: window.google.maps.places.RankBy.DISTANCE
+        }, callback.bind(this));
 
-            function callback(results, status) {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                    this.setState({hotSpots: results});
-                } else {
-                    // TODO: Do some error shit
-                    this.setState({hotSpots: []});
-                }
+        function callback(results, status) {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                this.setState({hotSpots: results});
+            } else {
+                // TODO: Do some error shit
+                this.setState({hotSpots: []});
             }
-
-            this.setState({foo:'bar'});
         }
+
+        this.setState({foo:'bar'});
+    }
 
     render() {
         const listItems = this.state.hotSpots.map((hotSpot) => {
             return (
                 <ListItem
-                    leftIcon=""
+                    key={hotSpot.id}
                     primaryText={hotSpot.name}
                     secondaryText={`${hotSpot.vicinity} - ${hotSpot.rating}`}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
@@ -69,7 +68,7 @@ class Landing extends Component {
         return (
             <div className="Landing">
                 <AppBar
-                    iconElementLeft={<img class='logo' src={require('../img/logo.png')} style={{'max-height':'50px'}}/>}
+                    iconElementLeft={<img className='logo' alt='logo' src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
                     style={{
                         position: 'fixed'
                     }}

@@ -1,6 +1,6 @@
 import {
-    red500, red900, redA700,
-    cyan700, cyan800,
+    red900, redA700,
+    cyan800,
     amber600,
     fullWhite,
 } from 'material-ui/styles/colors';
