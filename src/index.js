@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Landing from './Landing';
 import './index.css';
 
 
 
 let Hotly = {
-    start: ()=>ReactDOM.render(<App />, document.getElementById('root'))
+    start: ()=>ReactDOM.render(<Landing />, document.getElementById('root'))
 };
 
 window.Hotly = Hotly;

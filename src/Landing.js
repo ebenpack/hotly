@@ -1,10 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
+import LandingTempData from './LandingTempData'
 
-class App extends Component {
-    render() {
+import AppBar from 'material-ui/AppBar';
+
+
+
+class Landing extends Component {
+    render(props) {
+        props = LandingTempData;
         return (
-            <div className="App">
+            <div className="Landing">
+                <AppBar
+                    title="Title"
+                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                />
                 <div className="App-header">
                     <h2>Welcome to React</h2>
                 </div>
@@ -16,4 +26,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Landing;
