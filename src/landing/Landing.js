@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -8,6 +9,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
 import Disco from './Disco';
+import Divider from 'material-ui/Divider';
 
 import consts from '../consts';
 import { HotnessDisplay } from '../hotness/Hotness';
@@ -92,19 +94,22 @@ class Landing extends Component {
         const sortedHotSpots = this.hotSort(this.state.hotSpots);
 
         const secondaryText = (hotSpot) => (
-            <span>
-                {hotSpot.vicinity} - <HotnessDisplay rating={hotSpot.rating}/>
+            <span style={{whiteSpace:'pre'}}>
+                {hotSpot.vicinity} <div><HotnessDisplay rating={hotSpot.rating}/></div>
             </span>
         );
 
         const listItems = sortedHotSpots.map((hotSpot) => {
             return (
-                <ListItem
-                    key={hotSpot.id}
-                    primaryText={hotSpot.name}
-                    secondaryText={secondaryText(hotSpot)}
-                    onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
-                />
+                <div>
+                    <ListItem
+                        key={hotSpot.id}
+                        primaryText={hotSpot.name}
+                        secondaryText={secondaryText(hotSpot)}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
+                    />
+                    <Divider/>
+                </div>
             );
         });
 
