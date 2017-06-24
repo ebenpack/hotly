@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://hackbit.github.io/reactriot2017-hotly",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hackbit/reactriot2017-hotly.git"
+  },
   "dependencies": {
     "material-ui": "^0.18.3",
     "react": "^15.6.1",
