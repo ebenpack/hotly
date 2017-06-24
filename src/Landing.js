@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import LandingTempData from './LandingTempData'
-
 import AppBar from 'material-ui/AppBar';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
+
+import LandingTempData from './LandingTempData'
+import consts from './consts';
+
 
 let SelectableList = makeSelectable(List);
 
@@ -39,6 +41,23 @@ function wrapState(ComposedComponent) {
 SelectableList = wrapState(SelectableList);
 
 class Landing extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        };
+
+        this.handleFocusChange = this.handleFocusChange.bind(this);
+    }
+
+    handleFocusChange(focus) {
+        return () => {
+            const { updateFocus } = this.props;
+            updateFocus(focus);
+        };
+    }
+
     render(props) {
         props = LandingTempData;
 
@@ -48,6 +67,8 @@ class Landing extends Component {
                     title="What's Hot?"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
+                <button onClick={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}>Checkin</button>
+                <button onClick={this.handleFocusChange(consts.pages.DETAIL_PAGE)}>Detail</button>
                 <SelectableList defaultValue={3}>
                     <ListItem
                         value={1}

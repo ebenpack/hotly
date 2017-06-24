@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import './App.css';
-import Landing from './Landing';
-import Detail from './Detail';
-import Checkin from './CheckIn';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import './App.css';
+
+import Landing from './Landing';
+import Detail from './Detail';
+import CheckIn from './CheckIn';
+import consts from './consts';
+
 
 const customTheme = {
     palette: {
@@ -19,27 +22,45 @@ const customTheme = {
 const theme = getMuiTheme(customTheme);
 injectTapEventPlugin();
 
-const LANDING_PAGE = 'landing';
-const DETAIL_PAGE = 'detail';
-const CHECKIN_PAGE = 'checkin';
-
-
 class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            focus: LANDING_PAGE
+            focus: consts.pages.LANDING_PAGE
         };
+
+        this.updateFocus = this.updateFocus.bind(this);
+    }
+
+    updateFocus(focus) {
+        this.setState({focus});
     }
 
     render() {
         const { focus } = this.state;
-        // const currentPage = (<Landing />);
+
+        const currentPage = () => {
+            switch (focus) {
+                case consts.pages.LANDING_PAGE: {
+                    return <Landing updateFocus={this.updateFocus} />;
+                }
+                case consts.pages.DETAIL_PAGE: {
+                    return <Detail updateFocus={this.updateFocus} />;
+                }
+                case consts.pages.CHECKIN_PAGE: {
+                    return <CheckIn updateFocus={this.updateFocus} />;
+                }
+                default:
+                    return <h2>PAGE NOT FOUND</h2>;
+            }
+        };
 
         return (
             <MuiThemeProvider muiTheme={theme}>
-                <Landing />
+                <div>
+                    { currentPage() }
+                </div>
             </MuiThemeProvider>
         );
     }
