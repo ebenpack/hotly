@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import IconButton from 'material-ui/IconButton';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 
-import consts from '../consts';
 import Hotness from '../hotness/Hotness';
 
 import './CheckIn.css';
