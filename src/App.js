@@ -4,6 +4,9 @@ import Landing from './Landing';
 import Detail from './Detail';
 import Checkin from './CheckIn';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+injectTapEventPlugin();
 
 const LANDING_PAGE = 'landing';
 const DETAIL_PAGE = 'detail';
@@ -24,7 +27,9 @@ class App extends Component {
         // const currentPage = (<Landing />);
 
         return (
-            <Landing />
+            <MuiThemeProvider>
+                <Landing />
+            </MuiThemeProvider>
         );
     }
 }
