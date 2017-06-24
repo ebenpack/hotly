@@ -3,6 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import {List, ListItem} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 
@@ -56,11 +57,11 @@ class Landing extends Component {
 
     handleChange = (value) => {
         let type = '';
-        if (value == 0) {
+        if (value === 0) {
             type = 'bar';
-        } else if (value == 1) {
+        } else if (value === 1) {
             type = 'night_club';
-        } else if (value == 2) {
+        } else if (value === 2) {
             type = 'cafe';
         }
         this.setState({
@@ -75,6 +76,7 @@ class Landing extends Component {
             return (
                 <ListItem
                     key={hotSpot.id}
+                    leftIcon={<FontIcon className="fa fa-fire" />}
                     primaryText={hotSpot.name}
                     secondaryText={`${hotSpot.vicinity} - ${hotSpot.rating}`}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
