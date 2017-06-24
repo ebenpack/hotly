@@ -124,9 +124,9 @@ class Landing extends Component {
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
                 >
-                    <Tab label="Bars" value={0} icon={<FontIcon className="fa fa-beer" />} />
-                    <Tab label="Night Clubs" value={1} icon={<FontIcon className="fa fa-glass" />} />
-                    <Tab label="Cafes" value={2} icon={<FontIcon className="fa fa-coffee" />} />
+                <Tab icon={<FontIcon className="fa fa-beer" />} value={0} />
+                <Tab icon={<FontIcon className="fa fa-glass" />} value={1} />
+                <Tab icon={<FontIcon className="fa fa-coffee" />} value={2} />
                 </Tabs>
                 {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
                 <SwipeableViews
