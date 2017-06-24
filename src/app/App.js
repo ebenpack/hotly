@@ -3,12 +3,12 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import './App.css';
+import Landing from '../landing/Landing';
+import Detail from '../detail/Detail';
+import CheckIn from '../checkin/CheckIn';
+import consts from '../consts';
 
-import Landing from './Landing';
-import Detail from './Detail';
-import CheckIn from './CheckIn';
-import consts from './consts';
+import './App.css';
 
 
 const customTheme = {

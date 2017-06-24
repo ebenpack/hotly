@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import consts from './consts';
+
+import '../app/App.css';
+import consts from '../consts';
 
 
 class Detail extends Component {

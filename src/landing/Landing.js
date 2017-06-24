@@ -5,7 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 
 import LandingTempData from './LandingTempData'
-import consts from './consts';
+import consts from '../consts';
 
 
 let SelectableList = makeSelectable(List);
