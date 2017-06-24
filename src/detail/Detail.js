@@ -31,7 +31,6 @@ class Detail extends Component {
         }, callback.bind(this));
 
         function callback(results, status) {
-            debugger
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                 this.setState({
                     deets: results
