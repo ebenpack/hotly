@@ -26,7 +26,6 @@ class Detail extends Component {
     componentDidMount() {
         const {location, map, params} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
-        debugger
         service.getDetails({
             placeId: params.place_id
         }, callback.bind(this));
