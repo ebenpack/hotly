@@ -41,8 +41,6 @@ class Detail extends Component {
                 // TODO: Errors? I dgaf
             }
         }
-
-        this.setState({foo:'bar'});
     }
 
     render() {
@@ -50,7 +48,10 @@ class Detail extends Component {
         const {deets} = this.state;
         // TODO: Some loading spinner bullshit
         return (
-            <div className="Detail">
+            <div className="Detail" style={{
+                position: 'relative',
+                paddingTop: '60px'
+            }}>
                 {deets ? (
                     <div>
                         <p>formatted_address: {deets.formatted_address}</p>

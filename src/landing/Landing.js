@@ -109,18 +109,12 @@ class Landing extends Component {
         });
 
         return (
-            <div className="Landing">
-                <AppBar
-                    iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
-                    style={{
-                        position: 'fixed'
-                    }}
-                />
+            <div className="Landing" style={{
+                position: 'relative',
+                paddingTop: '60px'
+            }}>
 
-            <div style= {{
-                        position: 'relative',
-                        top: '60px'
-                    }}>
+            <div>
                 <Tabs
                     onChange={this.handleChange}
                     value={this.state.slideIndex}

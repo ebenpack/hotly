@@ -7,6 +7,9 @@ import Landing from '../landing/Landing';
 import Detail from '../detail/Detail';
 import CheckIn from '../checkin/CheckIn';
 import consts from '../consts';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 
 import './App.css';
 import hotlyTheme from './theme';
@@ -86,10 +89,22 @@ class App extends Component {
                     return <h2>PAGE NOT FOUND</h2>;
             }
         };
-
+        const iconElementRight = focus === consts.pages.LANDING_PAGE
+            ? null
+            : <IconButton>
+                    <NavigationChevronLeft onTouchTap={()=>this.updateFocus(consts.pages.LANDING_PAGE)} />
+                </IconButton>;
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
+                    <AppBar
+                        // title={focus}
+                        iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
+                        iconElementRight={iconElementRight}
+                        style={{
+                            position: 'fixed'
+                        }}
+                    />
                     { currentPage() }
                 </div>
             </MuiThemeProvider>
