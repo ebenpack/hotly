@@ -6,6 +6,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import consts from '../consts';
 
@@ -20,7 +21,8 @@ class Landing extends Component {
             hotSpots: [],
             type: 'bar',
             slideIndex: 0,
-            criteria: 'rating'
+            criteria: 'rating',
+            loading: true
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -34,6 +36,7 @@ class Landing extends Component {
     }
 
     locationSearch(type){
+        this.setState({hotSpots: []});
         const {location, map} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
         service.nearbySearch({
@@ -43,12 +46,14 @@ class Landing extends Component {
         }, callback.bind(this));
 
         function callback(results, status) {
+            let hotSpots = [];
+            let loading = false;
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                this.setState({hotSpots: results});
+                hotSpots = results;
             } else {
                 // TODO: Do some error shit
-                this.setState({hotSpots: []});
             }
+            this.setState({hotSpots, loading});
         }
     }
 
@@ -67,7 +72,8 @@ class Landing extends Component {
         }
         this.setState({
             type: type,
-            slideIndex: value
+            slideIndex: value,
+            loading: true
         });
         this.locationSearch(type);
     };
@@ -91,10 +97,6 @@ class Landing extends Component {
                     primaryText={hotSpot.name}
                     secondaryText={`${hotSpot.vicinity} - ${hotSpot.rating}`}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
-                    style= {{
-                        position: 'relative',
-                            top: '60px'
-                    }}
                 />
             );
         });
@@ -108,19 +110,19 @@ class Landing extends Component {
                     }}
                 />
 
-            <div>
+            <div style= {{
+                        position: 'relative',
+                        top: '60px'
+                    }}>
                 <Tabs
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
-                    style= {{
-                        position: 'relative',
-                            top: '60px'
-                    }}
                 >
                     <Tab label="Bars" value={0} />
                     <Tab label="Night Clubs" value={1} />
                     <Tab label="Cafes" value={2} />
                 </Tabs>
+                {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
                 <SwipeableViews
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
