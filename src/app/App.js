@@ -9,17 +9,10 @@ import CheckIn from '../checkin/CheckIn';
 import consts from '../consts';
 
 import './App.css';
+import hotlyTheme from './theme';
 
 
-const customTheme = {
-    palette: {
-        primary1Color: 'red',
-        primary2Color: 'blue',
-        primary3Color: 'green'
-    }
-};
-
-const theme = getMuiTheme(customTheme);
+const theme = getMuiTheme(hotlyTheme);
 injectTapEventPlugin();
 
 class App extends Component {
