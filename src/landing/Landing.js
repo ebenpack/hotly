@@ -71,7 +71,6 @@ class Landing extends Component {
                     title="What's Hot?"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
-                <button onClick={this.handleFocusChange(consts.pages.DETAIL_PAGE)}>Detail</button>
                 <SelectableList defaultValue={3}>
                     <ListItem
                         value={1}
@@ -82,23 +81,28 @@ class Landing extends Component {
                                 value={2}
                                 primaryText="Grace Ng"
                                 leftAvatar={<Avatar src="images/uxceo-128.jpg"/>}
+                                onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
                             />,
                         ]}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
                     />
                     <ListItem
                         value={3}
                         primaryText="Kerem Suer"
                         leftAvatar={<Avatar src="images/kerem-128.jpg"/>}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
                     />
                     <ListItem
                         value={4}
                         primaryText="Eric Hoffman"
                         leftAvatar={<Avatar src="images/kolage-128.jpg"/>}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
                     />
                     <ListItem
                         value={5}
                         primaryText="Raquel Parrado"
                         leftAvatar={<Avatar src="images/raquelromanp-128.jpg"/>}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE)}
                     />
                 </SelectableList>
                 <FloatingActionButton secondary={true}
