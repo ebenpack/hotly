@@ -9,7 +9,7 @@ export default {
     borderRadius: 2,
     palette: {
         primary1Color: '#303030',
-        accent1Color: '#C58100',
+        accent1Color: '#980008',
         textColor: '#C58100',
         secondaryTextColor: fade(fullWhite, 0.7),
         alternateTextColor: '#24A39A',
