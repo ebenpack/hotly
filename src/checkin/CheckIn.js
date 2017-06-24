@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import consts from '../consts';
+import Hotness from '../hotness/Hotness';
 
 import './CheckIn.css';
 
@@ -37,6 +39,15 @@ class CheckIn extends Component {
                         </IconButton>
                     }
                 />
+                <Card>
+                    <CardHeader
+                        title="How hot is it?"
+                        subtitle="Rate the location you're at"
+                    />
+                    <CardText>
+                        <Hotness rating={0} total={5}/>
+                    </CardText>
+                </Card>
 
             </div>
         );

@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import SocialWhatshot from 'material-ui/svg-icons/social/whatshot';
-import {red900} from 'material-ui/styles/colors';
+import {grey500} from 'material-ui/styles/colors';
 
 
 export const HotnessDisplay = (props) => {
-    const { rating } = props;
+    const { rating, total } = props;
     const flames = [];
+    const numOfFlames = total || rating;
 
-    for (let i = 0; i < rating; i++) {
+    for (let i = 0; i < numOfFlames; i++) {
         flames.push(
             <SocialWhatshot
                 key={`${i}-hotness`}
-                color={'#FB3842'}
+                color={i < rating ? '#FB3842' : grey500}
             />
         );
     }
@@ -26,14 +27,19 @@ class Hotness extends Component {
         super(props);
 
         this.state = {
-
+            rating: 0
         };
 
 
     }
 
     render() {
-        return null;
+        const { rating } = this.state;
+        const { total } = this.props;
+
+        return (
+            <HotnessDisplay rating={rating} total={total} />
+        );
     }
 }
 
