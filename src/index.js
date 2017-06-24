@@ -11,5 +11,5 @@ function initMap(){
 window.initMap = initMap;
 
 var script = document.createElement('script');
-script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA9MYxEG77iL5iaRjeHONPjM_O4sQtXjpc&callback=initMap&places";
+script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA9MYxEG77iL5iaRjeHONPjM_O4sQtXjpc&callback=initMap&libraries=places";
 document.body.appendChild(script);
