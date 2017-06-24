@@ -103,7 +103,7 @@ class Landing extends Component {
                 </SelectableList>
                 <FloatingActionButton secondary={true}
                     style={{float: 'right', marginRight: 20}}
-                    onClick={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
+                    onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
                 >
                     <ContentAdd />
                 </FloatingActionButton>
