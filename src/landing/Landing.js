@@ -3,9 +3,13 @@ import AppBar from 'material-ui/AppBar';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import LandingTempData from './LandingTempData'
 import consts from '../consts';
+
+import './Landing.css';
 
 
 let SelectableList = makeSelectable(List);
@@ -62,12 +66,11 @@ class Landing extends Component {
         props = LandingTempData;
 
         return (
-            <div>
+            <div className="Landing">
                 <AppBar
                     title="What's Hot?"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
-                <button onClick={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}>Checkin</button>
                 <button onClick={this.handleFocusChange(consts.pages.DETAIL_PAGE)}>Detail</button>
                 <SelectableList defaultValue={3}>
                     <ListItem
@@ -98,6 +101,12 @@ class Landing extends Component {
                         leftAvatar={<Avatar src="images/raquelromanp-128.jpg"/>}
                     />
                 </SelectableList>
+                <FloatingActionButton secondary={true}
+                    style={{float: 'right', marginRight: 20}}
+                    onClick={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
+                >
+                    <ContentAdd />
+                </FloatingActionButton>
             </div>
         )
     }
