@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 
-import '../app/App.css';
 import consts from '../consts';
+import { HotnessDisplay } from '../hotness/Hotness';
+
+import './Detail.css';
 
 
 class Detail extends Component {
@@ -60,7 +62,7 @@ class Detail extends Component {
                                 <img alt="location pic" src={photo.getUrl({'maxWidth': 100, 'maxHeight': 100})} key={i}/>
                             )}
                         </div>
-                        <p>rating: {deets.rating}</p>
+                        <p>rating: <HotnessDisplay rating={deets.rating} /></p>
                         <p>price_level: {deets.price_level}</p>
                     </div>
                 ) : null

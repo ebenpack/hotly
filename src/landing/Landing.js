@@ -9,6 +9,7 @@ import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
 
 import consts from '../consts';
+import { HotnessDisplay } from '../hotness/Hotness';
 
 import './Landing.css';
 
@@ -89,13 +90,18 @@ class Landing extends Component {
     render() {
         const sortedHotSpots = this.hotSort(this.state.hotSpots);
 
+        const secondaryText = (hotSpot) => (
+            <span>
+                {hotSpot.vicinity} - <HotnessDisplay rating={hotSpot.rating}/>
+            </span>
+        );
+
         const listItems = sortedHotSpots.map((hotSpot) => {
             return (
                 <ListItem
                     key={hotSpot.id}
-                    leftIcon={<FontIcon className="fa fa-fire" />}
                     primaryText={hotSpot.name}
-                    secondaryText={`${hotSpot.vicinity} - ${hotSpot.rating}`}
+                    secondaryText={secondaryText(hotSpot)}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
                 />
             );
@@ -118,9 +124,9 @@ class Landing extends Component {
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
                 >
-                    <Tab label="Bars" value={0} />
-                    <Tab label="Night Clubs" value={1} />
-                    <Tab label="Cafes" value={2} />
+                    <Tab label="Bars" value={0} icon={<FontIcon className="fa fa-beer" />} />
+                    <Tab label="Night Clubs" value={1} icon={<FontIcon className="fa fa-glass" />} />
+                    <Tab label="Cafes" value={2} icon={<FontIcon className="fa fa-coffee" />} />
                 </Tabs>
                 {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
                 <SwipeableViews
