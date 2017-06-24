@@ -108,6 +108,7 @@ class Landing extends Component {
                     }}
                 />
 
+            <div>
                 <Tabs
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
@@ -133,26 +134,27 @@ class Landing extends Component {
                         <List>
                             { listItems}
                         </List>
-                    </div >
+                    </div>
                     <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
                     </div>
                 </SwipeableViews>
-
-                <FloatingActionButton secondary={true}
-                    style={{
-                        position: 'fixed',
-                            bottom: 20,
-                            right: 20,
-                            zIndex: 9999
-                    }}
-                    onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
-                >
-                    <ContentAdd />
-                </FloatingActionButton>
             </div>
+
+            <FloatingActionButton secondary={true}
+                style={{
+                    position: 'fixed',
+                        bottom: 20,
+                        right: 20,
+                        zIndex: 9999
+                }}
+                onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
+            >
+                <ContentAdd />
+            </FloatingActionButton>
+        </div>
         )
     }
 }
