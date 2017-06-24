@@ -119,7 +119,7 @@ class Landing extends Component {
                 paddingTop: '60px'
             }}>
 
-            <div>
+            <div style={{position:'fixed', width:'100%', zIndex:'1000'}}>
                 <Tabs
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
@@ -128,6 +128,9 @@ class Landing extends Component {
                 <Tab icon={<Disco />} value={1} />
                 <Tab icon={<FontIcon className="fa fa-coffee" />} value={2} />
                 </Tabs>
+            </div>
+
+            <div style={{position:'relative', paddingTop:'49px'}}>
                 {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
                 <SwipeableViews
                     index={this.state.slideIndex}
