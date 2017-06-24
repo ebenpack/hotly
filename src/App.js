@@ -6,6 +6,17 @@ import Checkin from './CheckIn';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+const customTheme = {
+    palette: {
+        primary1Color: 'red',
+        primary2Color: 'blue',
+        primary3Color: 'green'
+    }
+};
+
+const theme = getMuiTheme(customTheme);
 injectTapEventPlugin();
 
 const LANDING_PAGE = 'landing';
@@ -27,7 +38,7 @@ class App extends Component {
         // const currentPage = (<Landing />);
 
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={theme}>
                 <Landing />
             </MuiThemeProvider>
         );
