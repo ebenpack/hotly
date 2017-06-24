@@ -15,7 +15,7 @@ class Landing extends Component {
         super(props);
 
         this.state = {
-
+            hotSpots: []
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -28,36 +28,35 @@ class Landing extends Component {
         };
     }
 
-        componentDidMount() {
-            const portland = new window.google.maps.LatLng(43.6423978,-70.2404187);
+    locationSearch(){
 
-            // const map = new window.google.maps.Map(document.getElementById('map'), {
-            //     center: portland,
-            //     zoom: 15
-            // });
-            //
-            // const service = new window.google.maps.places.PlacesService(map);
-            // service.nearbySearch({
-            //     location: portland,
-            //     type: 'bar',
-            //     rankBy: window.google.maps.places.RankBy.DISTANCE
-            // }, callback.bind(this));
-            //
-            // function callback(results, status) {
-            //     let google_results = [];
-            //     if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            //         for (let i = 0; i < results.length; i++) {
-            //             google_results.push(results[i]);
-            //         }
-            //         this.setState({results: google_results});
-            //     }
-            // }
-            //
-            // this.setState({foo:'bar'});
+    }
+
+        componentDidMount() {
+
+            const {location, map} = this.props;
+            debugger
+            const service = new window.google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: location,
+                type: 'bar',
+                rankBy: window.google.maps.places.RankBy.DISTANCE
+            }, callback.bind(this));
+
+            function callback(results, status) {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                    this.setState({hotSpots: results});
+                } else {
+                    // TODO: Do some error shit
+                    this.setState({hotSpots: []});
+                }
+            }
+
+            this.setState({foo:'bar'});
         }
 
     render() {
-        const listItems = hotSpots.map((hotSpot) => {
+        const listItems = this.state.hotSpots.map((hotSpot) => {
             return (
                 <ListItem
                     leftIcon=""
