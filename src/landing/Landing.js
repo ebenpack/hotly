@@ -94,21 +94,6 @@ class Landing extends Component {
                         position: 'fixed'
                     }}
                 />
-                {/* <Tabs */}
-                {/*     value={this.state.value} */}
-                {/*     onChange={this.handleChange} */}
-                {/*     style= {{ */}
-                {/*         position: 'relative', */}
-                {/*             top: '60px' */}
-                {/*     }} */}
-                {/* > */}
-                {/*     <Tab label="Bars" value="bar"> */}
-                {/*     </Tab> */}
-                {/*     <Tab label="Night Clubs" value="night_club"> */}
-                {/*     </Tab> */}
-                {/*     <Tab label="Coffee Shops" value="cafe"> */}
-                {/*     </Tab> */}
-                {/* </Tabs> */}
 
                 <Tabs
                     onChange={this.handleChange}
@@ -126,17 +111,17 @@ class Landing extends Component {
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
                 >
-                    <div>
+                    <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
                     </div>
-                    <div >
+                    <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
-                    </div>
-                    <div >
+                    </div >
+                    <div style={{overflow: 'hidden'}}>
                         <List>
                             { listItems}
                         </List>
