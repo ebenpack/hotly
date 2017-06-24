@@ -49,7 +49,6 @@ class Landing extends Component {
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
                 <SelectableList defaultValue={3}>
-                    <Subheader>Selectable Contacts</Subheader>
                     <ListItem
                         value={1}
                         primaryText="Brendan Lim"
