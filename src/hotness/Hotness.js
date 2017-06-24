@@ -17,7 +17,7 @@ export const HotnessDisplay = (props) => {
     }
 
     return (
-        <div>{ flames }</div>
+        <span>{ flames }</span>
     );
 };
 
