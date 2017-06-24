@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 import consts from '../consts';
-import { HotnessDisplay } from '../hotness/Hotness';
+import {HotnessDisplay} from '../hotness/Hotness';
 
 import './Detail.css';
 
@@ -41,28 +44,33 @@ class Detail extends Component {
                 // TODO: Errors? I dgaf
             }
         }
-
-        this.setState({foo:'bar'});
     }
 
     render() {
         const {params} = this.props;
         const {deets} = this.state;
         // TODO: Some loading spinner bullshit
+        debugger
         return (
-            <div className="Detail">
+            <div className="Detail" style={{
+                position: 'relative',
+                paddingTop: '60px'
+            }}>
                 {deets ? (
                     <div>
                         <p>formatted_address: {deets.formatted_address}</p>
                         <p>international_phone_number: {deets.international_phone_number}</p>
-                        <p>opening_hours.weekday_text: {deets.opening_hours.weekday_text}</p>
-                        <div>
-                            Here's some photos, dummy
-                            {deets.photos.map((photo, i)=>
-                                <img alt="location pic" src={photo.getUrl({'maxWidth': 100, 'maxHeight': 100})} key={i}/>
-                            )}
-                        </div>
-                        <p>rating: <HotnessDisplay rating={deets.rating} /></p>
+                        <p>opening_hours.weekday_text: {deets.opening_hours && deets.opening_hours.weekday_text}</p>
+                        <GridList
+                            cellHeight={180}
+                        >
+                            {deets.photos.map((photo, i) => (
+                                <GridTile key={i}>
+                                    <img src={photo.getUrl({'maxWidth': 100, 'maxHeight': 100})}/>
+                                </GridTile>
+                            ))}
+                        </GridList>
+                        <p>rating: <HotnessDisplay rating={deets.rating}/></p>
                         <p>price_level: {deets.price_level}</p>
                     </div>
                 ) : null

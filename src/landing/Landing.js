@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -8,6 +9,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
 import Disco from './Disco';
+import Divider from 'material-ui/Divider';
 
 import consts from '../consts';
 import { HotnessDisplay } from '../hotness/Hotness';
@@ -92,35 +94,32 @@ class Landing extends Component {
         const sortedHotSpots = this.hotSort(this.state.hotSpots);
 
         const secondaryText = (hotSpot) => (
-            <span>
-                {hotSpot.vicinity} - <HotnessDisplay rating={hotSpot.rating}/>
+            <span style={{whiteSpace:'pre'}}>
+                {hotSpot.vicinity} <div><HotnessDisplay rating={hotSpot.rating}/></div>
             </span>
         );
 
         const listItems = sortedHotSpots.map((hotSpot) => {
             return (
-                <ListItem
-                    key={hotSpot.id}
-                    primaryText={hotSpot.name}
-                    secondaryText={secondaryText(hotSpot)}
-                    onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
-                />
+                <div>
+                    <ListItem
+                        key={hotSpot.id}
+                        primaryText={hotSpot.name}
+                        secondaryText={secondaryText(hotSpot)}
+                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
+                    />
+                    <Divider/>
+                </div>
             );
         });
 
         return (
-            <div className="Landing">
-                <AppBar
-                    iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
-                    style={{
-                        position: 'fixed'
-                    }}
-                />
+            <div className="Landing" style={{
+                position: 'relative',
+                paddingTop: '60px'
+            }}>
 
-            <div style= {{
-                        position: 'relative',
-                        top: '60px'
-                    }}>
+            <div style={{position:'fixed', width:'100%', zIndex:'1000'}}>
                 <Tabs
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
@@ -129,6 +128,9 @@ class Landing extends Component {
                 <Tab icon={<Disco />} value={1} />
                 <Tab icon={<FontIcon className="fa fa-coffee" />} value={2} />
                 </Tabs>
+            </div>
+
+            <div style={{position:'relative', paddingTop:'49px'}}>
                 {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
                 <SwipeableViews
                     index={this.state.slideIndex}
