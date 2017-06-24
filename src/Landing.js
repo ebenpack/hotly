@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import LandingTempData from './LandingTempData'
-
 import AppBar from 'material-ui/AppBar';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 
+import LandingTempData from './LandingTempData'
 import consts from './consts';
+
 
 let SelectableList = makeSelectable(List);
 
