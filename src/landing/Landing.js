@@ -70,15 +70,21 @@ class Landing extends Component {
         return (
             <div className="Landing">
                 <AppBar
-                    iconElementRight={<img src={require('../img/logo.png')} style={{'max-height':'50px'}}/>}
-                    title="What's Hot?"
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    iconElementLeft={<img class='logo' src={require('../img/logo.png')} style={{'max-height':'50px'}}/>}
+                    style={{
+                        position: 'fixed'
+                    }}
                 />
                 <List>
                     { listItems}
                 </List>
                 <FloatingActionButton secondary={true}
-                    style={{float: 'right', marginRight: 20}}
+                    style={{
+                        position: 'fixed',
+                            bottom: 20,
+                            right: 20,
+                            zIndex: 9999
+                    }}
                     onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
                 >
                     <ContentAdd />
