@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
 import {List, ListItem} from 'material-ui/List';
+import {Tabs, Tab} from 'material-ui/Tabs';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import SwipeableViews from 'react-swipeable-views';
 
 import consts from '../consts';
 
@@ -14,7 +16,9 @@ class Landing extends Component {
         super(props);
 
         this.state = {
-            hotSpots: []
+            hotSpots: [],
+            type: 'bar',
+            slideIndex: 0
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -27,17 +31,12 @@ class Landing extends Component {
         };
     }
 
-    locationSearch(){
-
-    }
-
-    componentDidMount() {
-
+    locationSearch(type){
         const {location, map} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
         service.nearbySearch({
             location: location,
-            type: 'bar',
+            type: type,
             rankBy: window.google.maps.places.RankBy.DISTANCE
         }, callback.bind(this));
 
@@ -49,9 +48,27 @@ class Landing extends Component {
                 this.setState({hotSpots: []});
             }
         }
-
-        this.setState({foo:'bar'});
     }
+
+    componentDidMount() {
+        this.locationSearch(this.state.type)
+    }
+
+    handleChange = (value) => {
+        let slideIndex = 0;
+        if (value == 'bar') {
+            slideIndex = 0;
+        } else if (value == 'night_club') {
+            slideIndex = 1;
+        } else if (value == 'cafe') {
+            slideIndex = 2;
+        }
+        this.setState({
+            type: value,
+            slideIndex: slideIndex
+        });
+        this.locationSearch(value);
+    };
 
     render() {
         const listItems = this.state.hotSpots.map((hotSpot) => {
@@ -61,6 +78,10 @@ class Landing extends Component {
                     primaryText={hotSpot.name}
                     secondaryText={`${hotSpot.vicinity} - ${hotSpot.rating}`}
                     onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
+                    style= {{
+                        position: 'relative',
+                            top: '60px'
+                    }}
                 />
             );
         });
@@ -68,14 +89,60 @@ class Landing extends Component {
         return (
             <div className="Landing">
                 <AppBar
-                    iconElementLeft={<img className='logo' alt='logo' src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
+                    iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
                     style={{
                         position: 'fixed'
                     }}
                 />
-                <List>
-                    { listItems}
-                </List>
+                {/* <Tabs */}
+                {/*     value={this.state.value} */}
+                {/*     onChange={this.handleChange} */}
+                {/*     style= {{ */}
+                {/*         position: 'relative', */}
+                {/*             top: '60px' */}
+                {/*     }} */}
+                {/* > */}
+                {/*     <Tab label="Bars" value="bar"> */}
+                {/*     </Tab> */}
+                {/*     <Tab label="Night Clubs" value="night_club"> */}
+                {/*     </Tab> */}
+                {/*     <Tab label="Coffee Shops" value="cafe"> */}
+                {/*     </Tab> */}
+                {/* </Tabs> */}
+
+                <Tabs
+                    onChange={this.handleChange}
+                    value={this.state.slideIndex}
+                    style= {{
+                        position: 'relative',
+                            top: '60px'
+                    }}
+                >
+                    <Tab label="Bars" value={'bar'} />
+                    <Tab label="Night Clubs" value={'night_club'} />
+                    <Tab label="Cafes" value={'cafe'} />
+                </Tabs>
+                <SwipeableViews
+                    index={this.state.slideIndex}
+                    onChangeIndex={this.handleChange}
+                >
+                    <div>
+                        <List>
+                            { listItems}
+                        </List>
+                    </div>
+                    <div >
+                        <List>
+                            { listItems}
+                        </List>
+                    </div>
+                    <div >
+                        <List>
+                            { listItems}
+                        </List>
+                    </div>
+                </SwipeableViews>
+
                 <FloatingActionButton secondary={true}
                     style={{
                         position: 'fixed',
