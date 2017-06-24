@@ -6,7 +6,14 @@ import './index.css';
 
 
 function initMap(){
-    ReactDOM.render(<App />, document.getElementById('root'))
+    const map = new window.google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: 43.6423978,
+            lng: -70.2404187
+        },
+        zoom: 15
+    });
+    ReactDOM.render(<App map={map} />, document.getElementById('root'))
 }
 window.initMap = initMap;
 
