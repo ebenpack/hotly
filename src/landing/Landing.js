@@ -35,7 +35,6 @@ class Landing extends Component {
         componentDidMount() {
 
             const {location, map} = this.props;
-            debugger
             const service = new window.google.maps.places.PlacesService(map);
             service.nearbySearch({
                 location: location,
