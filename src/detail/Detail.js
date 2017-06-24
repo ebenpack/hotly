@@ -57,7 +57,7 @@ class Detail extends Component {
                         <div>
                             Here's some photos, dummy
                             {deets.photos.map((photo, i)=>
-                                <img src={photo.getUrl({'maxWidth': 100, 'maxHeight': 100})} key={i}/>
+                                <img alt="location pic" src={photo.getUrl({'maxWidth': 100, 'maxHeight': 100})} key={i}/>
                             )}
                         </div>
                         <p>rating: {deets.rating}</p>

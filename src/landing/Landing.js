@@ -56,11 +56,11 @@ class Landing extends Component {
 
     handleChange = (value) => {
         let slideIndex = 0;
-        if (value == 'bar') {
+        if (value === 'bar') {
             slideIndex = 0;
-        } else if (value == 'night_club') {
+        } else if (value === 'night_club') {
             slideIndex = 1;
-        } else if (value == 'cafe') {
+        } else if (value === 'cafe') {
             slideIndex = 2;
         }
         this.setState({
