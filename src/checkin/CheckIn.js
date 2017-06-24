@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 
-import '../app/App.css';
 import consts from '../consts';
+
+import './CheckIn.css';
 
 
 class CheckIn extends Component {
@@ -24,13 +28,16 @@ class CheckIn extends Component {
 
     render() {
         return (
-            <div className="App">
-                <div className="App-header">
-                    <h2>Checkin</h2>
-                </div>
-                <p className="App-intro">
-                    <button onClick={this.handleFocusChange(consts.pages.LANDING_PAGE)}>Landing</button>
-                </p>
+            <div className="CheckIn">
+                <AppBar
+                    title="Check In"
+                    iconElementLeft={
+                        <IconButton>
+                            <NavigationChevronLeft onTouchTap={this.handleFocusChange(consts.pages.LANDING_PAGE)} />
+                        </IconButton>
+                    }
+                />
+
             </div>
         );
     }
