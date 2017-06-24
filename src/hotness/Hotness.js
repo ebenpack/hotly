@@ -1,19 +1,24 @@
 import React, {Component} from 'react';
+import IconButton from 'material-ui/IconButton';
 import SocialWhatshot from 'material-ui/svg-icons/social/whatshot';
 import {grey500} from 'material-ui/styles/colors';
 
 
 export const HotnessDisplay = (props) => {
-    const { rating, total } = props;
+    const { rating, total, onChange } = props;
     const flames = [];
     const numOfFlames = total || rating;
 
-    for (let i = 0; i < numOfFlames; i++) {
+    const handleTouchTap = (newRating) => () => onChange ? onChange(newRating) : null;
+
+    for (let i = 1; i <= numOfFlames; i++) {
         flames.push(
-            <SocialWhatshot
-                key={`${i}-hotness`}
-                color={i < rating ? '#FB3842' : grey500}
-            />
+            <IconButton key={`${i}-hotness`} onTouchTap={handleTouchTap(i)} style={{padding: 0, width: 24, height: 24}}>
+                <SocialWhatshot
+                    color={i <= rating ? '#FB3842' : grey500}
+                    hoverColor={'#FB3842'}
+                />
+            </IconButton>
         );
     }
 
@@ -30,7 +35,14 @@ class Hotness extends Component {
             rating: 0
         };
 
+        this.handleRatingChange = this.handleRatingChange.bind(this);
+    }
 
+    handleRatingChange(newRating) {
+        console.log(`newRating: ${newRating}`);
+        this.setState({
+            rating: newRating
+        });
     }
 
     render() {
@@ -38,7 +50,7 @@ class Hotness extends Component {
         const { total } = this.props;
 
         return (
-            <HotnessDisplay rating={rating} total={total} />
+            <HotnessDisplay rating={rating} total={total} onChange={this.handleRatingChange} />
         );
     }
 }
