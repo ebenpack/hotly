@@ -42,12 +42,26 @@ class App extends Component {
         }
 
         function error() {/* Just use default location, I guess */}
-
+        window.onpopstate = ({focus, focusParams}) =>{
+            if (!focus) {
+                this.setState({
+                    focus: consts.pages.LANDING_PAGE,
+                    focusParams: {}
+                });
+            } else {
+                this.setState({
+                    focus,
+                    focusParams
+                });
+            }
+        }
         window.navigator.geolocation.getCurrentPosition(success, error);
     }
 
     updateFocus(focus, params={}) {
-        this.setState({focus,
+        window.history.pushState({focus: this.state.focus, focusParams: this.state.focusParams}, focus, `#${focus}`);
+        this.setState({
+            focus,
             focusParams: params
         });
     }
