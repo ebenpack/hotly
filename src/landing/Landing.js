@@ -18,7 +18,8 @@ class Landing extends Component {
         this.state = {
             hotSpots: [],
             type: 'bar',
-            slideIndex: 0
+            slideIndex: 0,
+            criteria: 'rating'
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -70,8 +71,18 @@ class Landing extends Component {
         this.locationSearch(type);
     };
 
+    hotSort(hotSpots) {
+        if (this.state.criteria === 'rating') {
+            return hotSpots.sort((a, b) => b.rating - a.rating);
+        } else {
+            return hotSpots;
+        }
+    }
+
     render() {
-        const listItems = this.state.hotSpots.map((hotSpot) => {
+        const sortedHotSpots = this.hotSort(this.state.hotSpots);
+
+        const listItems = sortedHotSpots.map((hotSpot) => {
             return (
                 <ListItem
                     key={hotSpot.id}
