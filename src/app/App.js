@@ -56,6 +56,21 @@ class App extends Component {
         };
         let showSplash = window.localStorage.getItem('showSplash') !== "false";
         this.setState({splashIsOpen: showSplash});
+        const self = this;
+        function success(position) {
+            self.setState({
+                location: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
+            });
+            window.localStorage.setItem('showSplash', false);
+        }
+
+        function error() {
+            self.setState({locationModalOpen: true})
+        }
+        window.navigator.geolocation.getCurrentPosition(success, error);
     }
 
     updateFocus(focus, params={}) {
@@ -90,24 +105,7 @@ class App extends Component {
     }
 
     closeSplash(){
-        const self = this;
-        function success(position) {
-            self.setState({
-                location: {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                }
-            });
-            window.localStorage.setItem('showSplash', false);
-        }
-
-        function error() {
-            this.setState({locationModalOpen: true})
-        }
-
         this.setState({splashIsOpen: false});
-
-        window.navigator.geolocation.getCurrentPosition(success, error.bind(this));
     }
 
     render() {
