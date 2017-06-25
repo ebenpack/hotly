@@ -60,8 +60,8 @@ class Landing extends Component {
     }
 
     componentDidMount() {
-        if (this.state.location) {
-            this.locationSearch(this.state.type, this.state.location)
+        if (this.props.location) {
+            this.locationSearch(this.state.type, this.props.location)
         }
     }
 
