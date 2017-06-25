@@ -99,21 +99,42 @@ class Landing extends Component {
         localStorage.setItem('value', value);
         localStorage.setItem('type', type);
         this.locationSearch(type, this.props.location);
-    };
+    }
 
     hotSort(hotSpots) {
+        // if (this.state.criteria === 'rating') {
+        //     return hotSpots.sort((a, b) => b.rating - a.rating);
+        // }
         if (this.state.criteria === 'rating') {
-            return hotSpots.sort((a, b) => b.rating - a.rating);
+            return this.locationSort(hotSpots);
         } else {
             return hotSpots;
         }
+    }
+
+    locationSort(hotSpots) {
+        console.log('bp', hotSpots);
+        if (!this.props.location) {
+            console.log("No location provided!");
+            return hotSpots
+        }
+
+        const loc = {
+            lat: () => this.props.location.lat,
+            lng: () => this.props.location.lng
+        }
+        const dist = (latLng) => window.google.maps.geometry.spherical.computeDistanceBetween(latLng, loc);
+        return hotSpots.sort(
+            (a, b) =>
+                dist(a.geometry.location) -
+                dist(b.geometry.location));
     }
 
     render() {
         // This is kind of shitty, but whatevs. We don't want to just show
         // a spinner if we don't even have a location to use to fetch data
         const loading = this.state.loading && !!(this.state.location);
-        const sortedHotSpots = this.hotSort(this.state.hotSpots);
+        const sortedHotSpots = this.hotSort(this.state.hotSpots) || [];
 
         const secondaryText = (hotSpot) => (
             <span style={{whiteSpace:'pre'}}>
