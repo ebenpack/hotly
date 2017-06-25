@@ -109,15 +109,14 @@ class Detail extends Component {
 
             return (
                 <Card>
-                    <CardHeader
-                        title="Foursquare"
-                        avatar={require('../img/Foursquare Social.png')}
-                    />
                     <CardText>
                         {hereNow ? (
                             <span>
-                                <h3>Here now:</h3>
-                                <p>{hereNow.summary} (Check Ins: {hereNow.count})</p>
+                                <p>
+                                    <img style={{maxHeight:'25px'}}src={require('../img/Foursquare Social.png')}/>
+                                    &nbsp; &nbsp;
+                                    {hereNow.summary} (Check Ins: {hereNow.count})
+                                </p>
                             </span>
                             ) : null}
                     </CardText>
@@ -168,18 +167,20 @@ class Detail extends Component {
                                 overflowX: 'auto',
                             }}
                         >
-                            {deets.photos.map((photo, i) => (
+                            {deets.photos?
+                            deets.photos.map((photo, i) => (
                                 <GridTile key={i}>
                                     <img alt="location" src={photo.getUrl({'maxWidth': 300, 'maxHeight': 300})}/>
                                 </GridTile>
-                            ))}
+                            )) : null
+                            }
                         </GridList>
                         <Card>
                             <CardHeader
                                 actAsExpander={true}
                                 showExpandableButton={true}
                                 title={<HotnessDisplay rating={deets.rating}/>}
-                                subtitle={<div>{price_level} <br/> Closes at: {closing_time}</div>}
+                                subtitle={<div>{price_level} <br/> Closes at: {closing_time}<br/> {foursquareInfo()}</div>}
                                 subtitleColor='#C58100'
                             />
                             <CardTitle
@@ -190,38 +191,39 @@ class Detail extends Component {
                                         <a style={{color:'#FB3842'}} href={deets.website}>Website</a>
                                         <br/>
                                         <a style={{color:'#FB3842'}} href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
-                                        {foursquareInfo()}
                                     </div>
                                 }
                             />
                             <CardText expandable={true}>
                                 <div>Address: {deets.formatted_address}</div>
-                                {deets.reviews.map((review) => (
-                                    <Card>
-                                        <CardHeader
-                                            avatar={
-                                                <a href={review.author_url}>
-                                                    <img style={{maxHeight:'50px'}}alt='' src={review.profile_photo_url}/>
-                                                </a>
-                                            }
-                                            title={review.author_name}
-                                            subtitle={review.relative_time_description}
-                                        />
-                                        <CardText>
-                                            {<HotnessDisplay rating={review.rating}/>}
-                                            <div>
-                                                <Truncate
-                                                    lines={!expanded && 2}
-                                                    ellipsis={<span>... <a href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
-                                                    {review.text}
-                                                </Truncate>
-                                                {!truncated && expanded && (
-                                                    <span> <a href='#' onClick={this.toggleLines.bind(this)}>Less</a></span>
-                                                )}
-                                            </div>
-                                        </CardText>
-                                    </Card>
-                                ))}
+                                {deets.reviews ?
+                                    deets.reviews.map((review) => (
+                                        <Card>
+                                            <CardHeader
+                                                avatar={
+                                                    <a href={review.author_url}>
+                                                        <img style={{maxHeight:'50px'}}alt='' src={review.profile_photo_url}/>
+                                                    </a>
+                                                }
+                                                title={review.author_name}
+                                                subtitle={review.relative_time_description}
+                                            />
+                                            <CardText>
+                                                {<HotnessDisplay rating={review.rating}/>}
+                                                <div>
+                                                    <Truncate
+                                                        lines={!expanded && 2}
+                                                        ellipsis={<span>... <a href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
+                                                        {review.text}
+                                                    </Truncate>
+                                                    {!truncated && expanded && (
+                                                        <span> <a href='#' onClick={this.toggleLines.bind(this)}>Less</a></span>
+                                                    )}
+                                                </div>
+                                            </CardText>
+                                        </Card>
+                                    )) : null
+                                }
                             </CardText>
                         </Card>
                         <HotMap
