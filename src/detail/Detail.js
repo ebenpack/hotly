@@ -210,11 +210,15 @@ class Detail extends Component {
                                         <br />
                                         <br />
                                         {price_level ? (<div>{price_level} <br /></div>) : null}
-                                        <a style={{color:'#FB3842'}} href={deets.website}>Website</a>
-                                        <br />
-                                        <a style={{color:'#FB3842'}} href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
-                                        <br />
-                                        <a style={{color:'#FB3842'}} href={deets.url}>{deets.formatted_address}</a>
+                                        <div style={{paddingBottom:'5px'}}>
+                                            <a style={{color:'#FB3842'}} href={deets.website}>Website</a>
+                                        </div>
+                                        <div style={{paddingBottom:'5px'}}>
+                                            <a style={{color:'#FB3842'}} href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
+                                        </div>
+                                        <div>
+                                            <a style={{color:'#FB3842'}} href={deets.url}>{deets.formatted_address}</a>
+                                        </div>
                                     </div>
                                 }
                             />
