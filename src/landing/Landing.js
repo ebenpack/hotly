@@ -19,10 +19,13 @@ class Landing extends Component {
     constructor(props) {
         super(props);
 
+        const slideIndex = parseInt(localStorage.getItem('value'));
+        const type = localStorage.getItem('type');
+
         this.state = {
             hotSpots: [],
-            type: 'bar',
-            slideIndex: 0,
+            type: type ? type : 'bar',
+            slideIndex: slideIndex ? slideIndex : 0,
             criteria: 'rating',
             loading: true
         };
@@ -38,6 +41,10 @@ class Landing extends Component {
     }
 
     locationSearch(type, location){
+        if(!location) {
+            console.log("No location provided!");
+            return;
+        }
         this.setState({hotSpots: []});
         const {map} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
@@ -85,6 +92,8 @@ class Landing extends Component {
             slideIndex: value,
             loading: true
         });
+        localStorage.setItem('value', value);
+        localStorage.setItem('type', type);
         this.locationSearch(type, this.props.location);
     };
 
@@ -110,7 +119,7 @@ class Landing extends Component {
 
         const listItems = sortedHotSpots.map((hotSpot) => {
             return (
-                <div>
+                <div key={hotSpot.id}>
                     <ListItem
                         key={hotSpot.id}
                         primaryText={hotSpot.name}
