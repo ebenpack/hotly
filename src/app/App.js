@@ -161,7 +161,7 @@ class App extends Component {
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
-                    <Splash splashIsOpen={this.state.splashIsOpen} close={this.closeSplash} />
+                    <Splash splashIsOpen={this.state.splashIsOpen} close={this.closeSplash.bind(this)} />
                     <Dialog
                         title="Enter your Location"
                         actions={actions}
