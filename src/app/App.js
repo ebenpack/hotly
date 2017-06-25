@@ -67,12 +67,12 @@ class App extends Component {
                     lng: position.coords.longitude
                 }
             });
-            window.localStorage.setItem('showSplash', false);
         }
 
         function error() {
             self.setState({locationModalOpen: true})
         }
+        window.localStorage.setItem('showSplash', false);
     }
 
     updateFocus(focus, params={}) {
@@ -115,7 +115,6 @@ class App extends Component {
                     lng: position.coords.longitude
                 }
             });
-            window.localStorage.setItem('showSplash', false);
         }
 
         function error() {
@@ -123,6 +122,7 @@ class App extends Component {
         }
         this.setState({splashIsOpen: false});
         window.navigator.geolocation.getCurrentPosition(success, error);
+        window.localStorage.setItem('showSplash', false);
     }
 
     render() {
