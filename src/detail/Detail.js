@@ -102,7 +102,6 @@ class Detail extends Component {
         const id = event.target.dataset.id
         event.preventDefault();
         let expanded = this.state.expanded;
-        debugger;
         expanded[id] = !expanded[id]
         this.setState({
             expanded: expanded
@@ -117,27 +116,34 @@ class Detail extends Component {
 
         return (
             <Card>
+                <CardHeader
+                    title='Popular hours today'
+                    avatar={
+                        <img style={{maxHeight:'25px'}} src={require('../img/Foursquare Social.png')} alt="foursquare logo"/>
+                    }
+                    subtitle=
+                    {popularHours ? (
+                        popularHours
+                    ) : null}
+                />
                 <CardText>
                     {hereNow ? (
                         <span>
-                            <p>
-                                <img style={{maxHeight:'25px'}} src={require('../img/Foursquare Social.png')} alt="foursquare logo"/>
-                                &nbsp; &nbsp;
-                                {hereNow.summary} (Check Ins: {hereNow.count})
-                            </p>
-                        </span>
-                    ) : null}
-                    {popularHours ? (
-                        <span>
-                            <h3>Popular Hours:</h3>
-                                {popularHours.weekday_text.map(hours => (
-                                    <span>{hours}<br /></span>
-                                ))}
+                            {hereNow.summary} (Check Ins: {hereNow.count})
                         </span>
                     ) : null}
                 </CardText>
             </Card>
         );
+    }
+
+    titleShit(deets) {
+        return (
+            <div>
+                {deets.name}
+                <HotnessDisplay rating={deets.rating}/>
+            </div>
+        )
     }
 
     render() {
@@ -195,61 +201,68 @@ class Detail extends Component {
                             }
                         </GridList>
                         <Card>
-                            <CardHeader
-                                actAsExpander={true}
-                                showExpandableButton={true}
-                                title={<HotnessDisplay rating={deets.rating}/>}
-                                subtitle={<div>{price_level} <br/> Closes at: {closing_time}<br/> {this.foursquareInfo()}</div>}
-                                subtitleColor='#C58100'
-                            />
                             <CardTitle
                                 titleColor='#24A39A'
-                                title={deets.name}
+                                title={this.titleShit(deets)}
                                 subtitle={
                                     <div>
+                                        Closes at: {closing_time}
+                                        <br />
+                                        <br />
+                                        {price_level ? (<div>{price_level} <br /></div>) : null}
                                         <a style={{color:'#FB3842'}} href={deets.website}>Website</a>
-                                        <br/>
+                                        <br />
                                         <a style={{color:'#FB3842'}} href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
                                         <br />
                                         <a style={{color:'#FB3842'}} href={deets.url}>{deets.formatted_address}</a>
                                     </div>
                                 }
                             />
-                            <CardText expandable={true}>
-                                {deets.reviews ?
-                                    deets.reviews.map((review,id) => (
-                                        <Card>
-                                            <CardHeader
-                                                avatar={
-                                                    <a href={review.author_url}>
-                                                        <img style={{maxHeight:'50px'}}alt='' src={review.profile_photo_url}/>
-                                                    </a>
-                                                }
-                                                title={review.author_name}
-                                                subtitle={review.relative_time_description}
-                                            />
-                                            <CardText>
-                                                {<HotnessDisplay rating={review.rating}/>}
-                                                <div>
-                                                    <Truncate
-                                                        lines={!expanded[id] && 2}
-                                                        ellipsis={
-                                                            <span>...
-                                                                <a data-id={id} style={{color:'#24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>More</a>
-                                                            </span>
-                                                        }>
-                                                        {review.text}
-                                                    </Truncate>
-                                                    {expanded[id] && (
-                                                        <span>
-                                                            <a data-id={id} style={{color:'#24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>Less</a>
-                                                            </span>
-                                                    )}
-                                                </div>
-                                            </CardText>
-                                        </Card>
-                                    )) : null
-                                }
+                            <CardText>
+                                {this.foursquareInfo()}
+                                <Card>
+                                    <CardHeader
+                                        actAsExpander={true}
+                                        showExpandableButton={true}
+                                        title='Reviews'
+                                    />
+                                    <CardText expandable={true}>
+                                        {deets.reviews ?
+                                            deets.reviews.map((review,id) => (
+                                                <Card>
+                                                    <CardHeader
+                                                        avatar={
+                                                            <a href={review.author_url}>
+                                                                <img style={{maxHeight:'50px'}}alt='' src={review.profile_photo_url}/>
+                                                            </a>
+                                                        }
+                                                        title={review.author_name}
+                                                        subtitle={review.relative_time_description}
+                                                    />
+                                                    <CardText>
+                                                        {<HotnessDisplay rating={review.rating}/>}
+                                                        <div>
+                                                            <Truncate
+                                                                lines={!expanded[id] && 2}
+                                                                ellipsis={
+                                                                    <span>...
+                                                                        <a data-id={id} style={{color:'#24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>More</a>
+                                                                    </span>
+                                                                }>
+                                                                {review.text}
+                                                            </Truncate>
+                                                            {expanded[id] && (
+                                                                <span>
+                                                                    <a data-id={id} style={{color:'#24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>Less</a>
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </CardText>
+                                                </Card>
+                                            )) : null
+                                        }
+                                    </CardText>
+                                </Card>
                             </CardText>
                         </Card>
                         <HotMap
