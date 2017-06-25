@@ -46,6 +46,31 @@ export function getFoursquareVenueFromGooglePlace(googlePlace, foursquareVenues)
     });
 }
 
+/*
+
+ 0
+ :
+ {days: [7], includesToday: true, open: [{start: "1200", end: "2100"}], segments: []}
+ 1
+ :
+ {days: [1], open: [{start: "1500", end: "2000"}], segments: []}
+ 2
+ :
+ {days: [2], open: [{start: "1600", end: "2100"}], segments: []}
+ 3
+ :
+ {days: [3], open: [{start: "1500", end: "2100"}], segments: []}
+ 4
+ :
+ {days: [4], open: [{start: "1500", end: "2200"}], segments: []}
+ 5
+ :
+ {days: [5], open: [{start: "1400", end: "+0100"}], segments: []}
+ 6
+ :
+ {days: [6], open: [{start: "1300", end: "+0100"}], segments: []}
+ */
+
 export function transformVenueHoursToGoogleFormat(hours) {
     if (!hours || !hours.timeframes) return null;
 
@@ -70,20 +95,21 @@ export function transformVenueHoursToGoogleFormat(hours) {
         const days = timeframe.days;
 
         days.forEach((dayNum) => {
-            popular_hours.popular_today = timeframe.includesToday && dayNum === todayNum;
+            const adjustedDayNum = dayNum === 7 ? 0 : dayNum; // adjust Sunday to 0 instead of 7
+            popular_hours.popular_today = timeframe.includesToday && adjustedDayNum === todayNum;
 
             if (timeframe.open.length > 0) {
-                popular_hours.weekday_text[dayNum] = `${consts.WEEKDAYS[dayNum]}: `;
+                popular_hours.weekday_text[adjustedDayNum] = `${consts.WEEKDAYS[adjustedDayNum]}: `;
 
                 timeframe.open.forEach((period, index) => {
                     popular_hours.periods.push({
-                        open: {day: dayNum, time: period.start},
-                        close: {day: dayNum, time: period.end}
+                        open: {day: adjustedDayNum, time: period.start},
+                        close: {day: adjustedDayNum, time: period.end}
                     });
 
-                    if (index > 0) popular_hours.weekday_text[dayNum] += `, `;
+                    if (index > 0) popular_hours.weekday_text[adjustedDayNum] += `, `;
                     // TODO: convert to 12 hour time
-                    popular_hours.weekday_text[dayNum] += `${period.start} - ${period.end}`;
+                    popular_hours.weekday_text[adjustedDayNum] += `${period.start} - ${period.end}`;
                 });
             }
         });

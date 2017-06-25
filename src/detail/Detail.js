@@ -130,9 +130,9 @@ class Detail extends Component {
                     {popularHours ? (
                         <span>
                             <h3>Popular Hours:</h3>
-                            <p>
-                                {popularHours.weekday_text.map(hours => hours)}
-                            </p>
+                                {popularHours.weekday_text.map(hours => (
+                                    <span>{hours}<br /></span>
+                                ))}
                         </span>
                     ) : null}
                 </CardText>
