@@ -10,6 +10,9 @@ import consts from '../consts';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import PlaceCompletion from '../placeCompletion/PlaceCompletion'
 
 import './App.css';
 import hotlyTheme from './theme';
@@ -26,7 +29,10 @@ class App extends Component {
             focus: consts.pages.LANDING_PAGE,
             focusParams: {},
             location: null,
-            map: props.map
+            map: props.map,
+            locationModalOpen: false,
+            locationFieldValue: '',
+            locationHints: []
         };
 
         this.updateFocus = this.updateFocus.bind(this);
@@ -68,6 +74,29 @@ class App extends Component {
         });
     }
 
+    toggleLocationModal() {
+        this.setState({
+            locationModalOpen: !this.state.locationModalOpen,
+            locationFieldValue: ''
+        });
+    }
+
+    selectAutocompletion(location){
+        const service = new window.google.maps.places.PlacesService(this.props.map);
+        service.getDetails({
+            placeId: location.place_id
+        }, callback.bind(this));
+        this.toggleLocationModal();
+        function callback(googlePlace, status){
+            this.setState({
+                location: {
+                    lat: googlePlace.geometry.location.lat(),
+                    lng: googlePlace.geometry.location.lng()
+                }
+            });
+        }
+    }
+
     render() {
         const { focus, focusParams } = this.state;
         const {map} = this.props;
@@ -90,15 +119,43 @@ class App extends Component {
             }
         };
 
+        const actions = [
+            <RaisedButton
+                label="Cancel"
+                primary={true}
+                onTouchTap={this.toggleLocationModal.bind(this)}
+            />,
+        ];
+
         const iconElementRight = focus === consts.pages.LANDING_PAGE
-            ? null
-            : <IconButton>
-                    <NavigationChevronLeft onTouchTap={()=>this.updateFocus(consts.pages.LANDING_PAGE)} />
-                </IconButton>;
+            ? <div>
+                <RaisedButton
+                    label="Change My Location" onTouchTap={this.toggleLocationModal.bind(this)}
+                />
+            </div>
+            : <div>
+
+                <IconButton>
+                    <NavigationChevronLeft onTouchTap={() => this.updateFocus(consts.pages.LANDING_PAGE)}/>
+                </IconButton>
+                <RaisedButton
+                    label="Change My Location" onTouchTap={this.toggleLocationModal.bind(this)}
+                />
+            </div>
 
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
+                    <Dialog
+                        title="Enter your Location"
+                        actions={actions}
+                        modal={false}
+                        open={this.state.locationModalOpen}
+                    >
+                        <PlaceCompletion
+                            selectAutocompletion={this.selectAutocompletion.bind(this)}
+                        />
+                    </Dialog>
                     <AppBar
                         // title={focus}
                         iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
