@@ -3,19 +3,34 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {withGoogleMap, GoogleMap, Marker} from "react-google-maps";
 
 import consts from '../consts';
 import {HotnessDisplay} from '../hotness/Hotness';
 
 import './Detail.css';
 
+const HotMap = withGoogleMap((props) => {
+    return <GoogleMap
+        ref={props.onMapLoad}
+        defaultZoom={18}
+        defaultCenter={props.location}
+        onClick={props.onMapClick}
+    >
+        <Marker
+            position={props.location}
+            onRightClick={() => {}}
+        />
+    </GoogleMap>
+});
 
 class Detail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            deets: null
+            deets: null,
+            markers: []
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -61,7 +76,7 @@ class Detail extends Component {
                 if (minutes.toString().length === 1) {
                     minutes = '0' + minutes;
                 }
-                closing_time = ((hour + 11) % 12 + 1) + ':'  + minutes;
+                closing_time = ((hour + 11) % 12 + 1) + ':' + minutes;
             }
         }
         // TODO: Some loading spinner bullshit
@@ -73,11 +88,11 @@ class Detail extends Component {
                 {deets ? (
                     <div>
                         <GridList cellHeight={180} cols={2.2}
-                            style={{
-                                display: 'flex',
-                                flexWrap: 'nowrap',
-                                overflowX: 'auto',
-                            }}
+                                  style={{
+                                      display: 'flex',
+                                      flexWrap: 'nowrap',
+                                      overflowX: 'auto',
+                                  }}
                         >
                             {deets.photos.map((photo, i) => (
                                 <GridTile key={i}>
@@ -86,10 +101,12 @@ class Detail extends Component {
                             ))}
                         </GridList>
                         <Card>
-                            <CardTitle title={deets.name} />
+                            <CardTitle title={deets.name}/>
                             <CardText>
                                 <p>Address: {deets.formatted_address}</p>
-                                <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a></p>
+                                <p>Phone_number: <a
+                                    href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
+                                </p>
                                 <div> Closes at: {closing_time} </div>
                                 <p>rating: <HotnessDisplay rating={deets.rating}/></p>
                                 <p>price_level: {deets.price_level}</p>
@@ -97,6 +114,24 @@ class Detail extends Component {
                                 <p>website: {deets.website}</p>
                             </CardText>
                         </Card>
+                        <HotMap
+                            location={{
+                                lat: deets.geometry.location.lat(),
+                                lng: deets.geometry.location.lng()
+                            }}
+                            containerElement={
+                                <div style={{height: '500px'}} />
+                            }
+                            mapElement={
+                                <div style={{height: '500px'}} />
+                            }
+                            onMapLoad={() => {
+                            }}
+                            onMapClick={() => {
+                            }}
+                            markers={this.state.markers}
+                            onMarkerRightClick={() => {}}
+                        />
                     </div>
                 ) : null
                 }
