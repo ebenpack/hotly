@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+<<<<<<< HEAD
+import TextField from 'material-ui/TextField';
+=======
+>>>>>>> 731f367a75e820959b11de88ef465667cce76baf
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Hotness from '../hotness/Hotness';
