@@ -214,7 +214,7 @@ class Detail extends Component {
                                                 <div>
                                                     <Truncate
                                                         lines={!expanded && 2}
-                                                        ellipsis={<span>... <a href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
+                                                        ellipsis={<span>... <a style={{color:'24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
                                                         {review.text}
                                                     </Truncate>
                                                     {!truncated && expanded && (
