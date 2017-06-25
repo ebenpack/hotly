@@ -17,10 +17,8 @@ class HotSpotCompletion extends Component {
     }
 
     handleChangeLocation(hotSpot) {
-        return () => {
-            const {updateLocation} = this.props;
-            updateLocation(hotSpot);
-        };
+        const {updateLocation} = this.props;
+        updateLocation(hotSpot);
     }
 
     componentWillMount() {

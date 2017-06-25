@@ -32,7 +32,10 @@ class CheckIn extends Component {
     }
 
     updateLocation(location) {
-        this.setState({location});
+        this.setState({
+            location,
+            allowUserToTypeLocation: false
+        });
     }
 
     toggleMusic() {
