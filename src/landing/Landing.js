@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import AppBar from 'material-ui/AppBar';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -8,7 +6,6 @@ import FontIcon from 'material-ui/FontIcon';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
-import Disco from './Disco';
 import Divider from 'material-ui/Divider';
 
 import consts from '../consts';

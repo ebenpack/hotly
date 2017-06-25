@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 
 import {HotnessDisplay} from '../hotness/Hotness';
 import searchVenues, {getFoursquareVenueFromGooglePlace} from '../data/foursquare';
@@ -119,7 +117,7 @@ class Detail extends Component {
                         >
                             {deets.photos.map((photo, i) => (
                                 <GridTile key={i}>
-                                    <img src={photo.getUrl({'maxWidth': 300, 'maxHeight': 300})}/>
+                                    <img alt="location" src={photo.getUrl({'maxWidth': 300, 'maxHeight': 300})}/>
                                 </GridTile>
                             ))}
                         </GridList>
