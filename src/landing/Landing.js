@@ -20,7 +20,9 @@ class Landing extends Component {
         super(props);
 
         this.state = {
-            hotSpots: [],
+            bar: [],
+            night_club: [],
+            cafe: [],
             type: 'bar',
             slideIndex: 0,
             criteria: 'rating',
@@ -38,7 +40,9 @@ class Landing extends Component {
     }
 
     locationSearch(type, location){
-        this.setState({hotSpots: []});
+        let newState = {};
+        newState[type] = [];
+        this.setState(newState);
         const {map} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
         service.nearbySearch({
@@ -55,13 +59,17 @@ class Landing extends Component {
             } else {
                 // TODO: Do some error shit
             }
-            this.setState({hotSpots, loading});
+            newState = {loading};
+            newState[type] = hotSpots;
+            this.setState(newState);
         }
     }
 
     componentDidMount() {
         if (this.props.location) {
-            this.locationSearch(this.state.type, this.props.location)
+            this.locationSearch('bar',          this.props.location);
+            this.locationSearch('night_club',   this.props.location);
+            this.locationSearch('cafe',         this.props.location);
         }
     }
 
@@ -71,7 +79,9 @@ class Landing extends Component {
             (this.props.location && nextProps.location
                 && this.props.location.lat !== nextProps.location.lat
                 && this.props.location.lng !== nextProps.location.lng)) {
-            this.locationSearch(this.state.type, nextProps.location);
+            this.locationSearch('bar',          nextProps.location);
+            this.locationSearch('night_club',   nextProps.location);
+            this.locationSearch('cafe',         nextProps.location);
         }
     }
 
@@ -87,44 +97,39 @@ class Landing extends Component {
         this.setState({
             type: type,
             slideIndex: value,
-            loading: true
         });
-        this.locationSearch(type, this.props.location);
     };
 
     hotSort(hotSpots) {
-        if (this.state.criteria === 'rating') {
-            return hotSpots.sort((a, b) => b.rating - a.rating);
-        } else {
-            return hotSpots;
+        const secondaryText = (hotSpot) => (
+            <span style={{whiteSpace:'pre'}}>
+                {hotSpot.vicinity} <div><HotnessDisplay rating={hotSpot.rating}/></div>
+            </span>
+        );
+        let self = this;
+        function helper(){
+            if (self.state.criteria === 'rating') {
+                return hotSpots.sort((a, b) => b.rating - a.rating);
+            } else {
+                return hotSpots;
+            }
         }
+        return hotSpots.sort(helper).map((hotSpot) => (
+            <div key={hotSpot.id}>
+                <ListItem
+                    primaryText={hotSpot.name}
+                    secondaryText={secondaryText(hotSpot)}
+                    onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
+                />
+                <Divider/>
+            </div>
+        ));
     }
 
     render() {
         // This is kind of shitty, but whatevs. We don't want to just show
         // a spinner if we don't even have a location to use to fetch data
         const loading = this.state.loading && !!(this.state.location);
-        const sortedHotSpots = this.hotSort(this.state.hotSpots);
-
-        const secondaryText = (hotSpot) => (
-            <span style={{whiteSpace:'pre'}}>
-                {hotSpot.vicinity} <div><HotnessDisplay rating={hotSpot.rating}/></div>
-            </span>
-        );
-
-        const listItems = sortedHotSpots.map((hotSpot) => {
-            return (
-                <div>
-                    <ListItem
-                        key={hotSpot.id}
-                        primaryText={hotSpot.name}
-                        secondaryText={secondaryText(hotSpot)}
-                        onTouchTap={this.handleFocusChange(consts.pages.DETAIL_PAGE, {place_id: hotSpot.place_id})}
-                    />
-                    <Divider/>
-                </div>
-            );
-        });
 
         return (
             <div className="Landing" style={{
@@ -151,17 +156,17 @@ class Landing extends Component {
                 >
                     <div style={{overflow: 'hidden'}}>
                         <List>
-                            { listItems}
+                            {this.hotSort(this.state.bar)}
                         </List>
                     </div>
                     <div style={{overflow: 'hidden'}}>
                         <List>
-                            { listItems}
+                            {this.hotSort(this.state.night_club)}
                         </List>
                     </div>
                     <div style={{overflow: 'hidden'}}>
                         <List>
-                            { listItems}
+                            {this.hotSort(this.state.cafe)}
                         </List>
                     </div>
                 </SwipeableViews>
@@ -174,8 +179,11 @@ class Landing extends Component {
                         right: 20,
                         zIndex: 9999
                 }}
-                onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE, {locationName: this.state.hotSpots[0] ? this.state.hotSpots[0].name : null})}
-            >
+                onTouchTap={this.handleFocusChange(
+                    consts.pages.CHECKIN_PAGE,
+                    {locationName: this.state[this.state.type][0] ? this.state[this.state.type][0].name : null}
+                )
+                }>
                 <ContentAdd />
             </FloatingActionButton>
         </div>
