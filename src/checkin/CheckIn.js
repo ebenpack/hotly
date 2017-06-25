@@ -16,7 +16,7 @@ class CheckIn extends Component {
             allowUserToTypeLocation: !props.params.locationName,
             noiseLevel: "",
             crowdSize: "",
-            amenities: "",
+            amenities: {},
         };
 
         console.log(props);
@@ -28,6 +28,18 @@ class CheckIn extends Component {
             const {updateFocus} = this.props;
             updateFocus(focus);
         };
+    }
+
+    toggleMusic() {
+        let amenities = this.state.amenities;
+        amenities['music'] = !amenities['music']
+        this.setState({amenities: amenities})
+    }
+
+    toggleDancing() {
+        let amenities = this.state.amenities;
+        amenities['dancing'] = !amenities['dancing']
+        this.setState({amenities: amenities})
     }
 
     render() {
@@ -79,12 +91,7 @@ class CheckIn extends Component {
                             {... this.state.noiseLevel === "quiet" ? {backgroundColor: "#CCC"} : {}}
                         />
                         <RaisedButton
-                            label="Noisy"
-                            onTouchTap={() => this.setState({noiseLevel: "noisy"}) }
-                            {... this.state.noiseLevel === "noisy" ? {backgroundColor: "#CCC"} : {}}
-                        />
-                        <RaisedButton
-                            label="LOUD"
+                            label="Loud"
                             onTouchTap={() => this.setState({noiseLevel: "loud"}) }
                             {... this.state.noiseLevel === "loud" ? {backgroundColor: "#CCC"} : {}}
                         />
@@ -105,11 +112,6 @@ class CheckIn extends Component {
                             onTouchTap={() => this.setState({crowdLevel: "busy"}) }
                             {... this.state.crowdLevel === "busy" ? {backgroundColor: "#CCC"} : {}}
                         />
-                        <RaisedButton
-                            label="Packed"
-                            onTouchTap={() => this.setState({crowdLevel: "packed"}) }
-                            {... this.state.crowdLevel === "packed" ? {backgroundColor: "#CCC"} : {}}
-                        />
                     </CardActions>
                 </Card>
                 <Card>
@@ -119,18 +121,13 @@ class CheckIn extends Component {
                     <CardActions>
                         <RaisedButton
                             label="Music"
-                            onTouchTap={() => this.setState({amenities: "music"}) }
-                            {... this.state.amenities === "music" ? {backgroundColor: "#CCC"} : {}}
+                            onTouchTap={this.toggleMusic.bind(this)}
+                            {... this.state.amenities['music'] ? {backgroundColor: "#CCC"} : {}}
                         />
                         <RaisedButton
                             label="Dancing"
-                            onTouchTap={() => this.setState({amenities: "dancing"}) }
-                            {... this.state.amenities === "dancing" ? {backgroundColor: "#CCC"} : {}}
-                        />
-                        <RaisedButton
-                            label="Food"
-                            onTouchTap={() => this.setState({amenities: "food"}) }
-                            {... this.state.amenities === "food" ? {backgroundColor: "#CCC"} : {}}
+                            onTouchTap={this.toggleDancing.bind(this)}
+                            {... this.state.amenities['dancing'] ? {backgroundColor: "#CCC"} : {}}
                         />
                     </CardActions>
                 </Card>
