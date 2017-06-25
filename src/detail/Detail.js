@@ -95,7 +95,12 @@ class Detail extends Component {
                         avatar={require('../img/Foursquare Social.png')}
                     />
                     <CardText>
-                        {hereNow ? <p>Here now: {hereNow.summary} - Check Ins: {hereNow.count}</p> : null}
+                        {hereNow ? (
+                            <span>
+                                <h3>Here now:</h3>
+                                <p>{hereNow.summary} (Check Ins: {hereNow.count})</p>
+                            </span>
+                            ) : null}
                     </CardText>
                 </Card>
             );
