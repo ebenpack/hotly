@@ -57,9 +57,6 @@ class Detail extends Component {
             }}>
                 {deets ? (
                     <div>
-                        <p>formatted_address: {deets.formatted_address}</p>
-                        <p>international_phone_number: {deets.international_phone_number}</p>
-                        <p>opening_hours.weekday_text: {deets.opening_hours && deets.opening_hours.weekday_text}</p>
                         <GridList cellHeight={180} cols={2.2}
                             style={{
                                 display: 'flex',
@@ -69,18 +66,18 @@ class Detail extends Component {
                         >
                             {deets.photos.map((photo, i) => (
                                 <GridTile key={i}>
-                                    <img src={photo.getUrl({'maxWidth': 100, 'maxHeight': 100})}/>
+                                    <img src={photo.getUrl({'maxWidth': 300, 'maxHeight': 300})}/>
                                 </GridTile>
                             ))}
                         </GridList>
+                        <p>Address: {deets.formatted_address}</p>
+                        <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.international_phone_number}</a></p>
+                        <p>Hours: {deets.opening_hours && deets.opening_hours.weekday_text}</p>
                         <p>rating: <HotnessDisplay rating={deets.rating}/></p>
                         <p>price_level: {deets.price_level}</p>
                     </div>
                 ) : null
                 }
-                <p className="App-intro">
-                    <button onClick={this.handleFocusChange(consts.pages.LANDING_PAGE)}>Landing</button>
-                </p>
             </div>
         );
     }
