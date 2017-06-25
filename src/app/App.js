@@ -98,7 +98,6 @@ class App extends Component {
                     lng: position.coords.longitude
                 }
             });
-            window.localStorage.setItem('showSplash', false);
         }
 
         function error() {
@@ -106,7 +105,8 @@ class App extends Component {
         }
 
         this.setState({splashIsOpen: false});
-
+        
+        window.localStorage.setItem('showSplash', false);
         window.navigator.geolocation.getCurrentPosition(success, error.bind(this));
     }
 
