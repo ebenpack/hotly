@@ -29,7 +29,7 @@ const Splash = ({splashIsOpen, close}) => (
                 <br />
                 <br />
 
-                We'll need your geolocation for this webapp to work.
+                We'd like your geolocation for this webapp to work.
             </CardText>
             <CardActions>
                 <FlatButton label="Get Started!" onTouchTap={close}/>
