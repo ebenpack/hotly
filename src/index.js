@@ -5,7 +5,7 @@ import App from './app/App';
 import './index.css';
 
 
-function initMap(){
+function render(){
     const map = new window.google.maps.Map(document.getElementById('map'), {
         center: {
             lat: 43.6423978,
@@ -15,8 +15,9 @@ function initMap(){
     });
     ReactDOM.render(<App map={map} />, document.getElementById('root'))
 }
-window.initMap = initMap;
+window.render = render;
 
 var script = document.createElement('script');
-script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA9MYxEG77iL5iaRjeHONPjM_O4sQtXjpc&callback=initMap&libraries=places";
+script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA9MYxEG77iL5iaRjeHONPjM_O4sQtXjpc&libraries=places";
+script.onload = render;
 document.body.appendChild(script);

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import consts from '../consts';
 import {HotnessDisplay} from '../hotness/Hotness';
@@ -49,6 +50,20 @@ class Detail extends Component {
     render() {
         const {params} = this.props;
         const {deets} = this.state;
+
+        let closing_time = 'N/A';
+        if (deets && deets.opening_hours) {
+            const date = new Date();
+            const day = date.getDay();
+            if (deets.opening_hours.periods[day]) {
+                const hour = deets.opening_hours.periods[day]['close'].hours
+                let minutes = deets.opening_hours.periods[day]['close'].minutes
+                if (minutes.toString().length === 1) {
+                    minutes = '0' + minutes;
+                }
+                closing_time = ((hour + 11) % 12 + 1) + ':'  + minutes;
+            }
+        }
         // TODO: Some loading spinner bullshit
         return (
             <div className="Detail" style={{
@@ -70,11 +85,18 @@ class Detail extends Component {
                                 </GridTile>
                             ))}
                         </GridList>
-                        <p>Address: {deets.formatted_address}</p>
-                        <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.international_phone_number}</a></p>
-                        <p>Hours: {deets.opening_hours && deets.opening_hours.weekday_text}</p>
-                        <p>rating: <HotnessDisplay rating={deets.rating}/></p>
-                        <p>price_level: {deets.price_level}</p>
+                        <Card>
+                            <CardTitle title={deets.name} />
+                            <CardText>
+                                <p>Address: {deets.formatted_address}</p>
+                                <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a></p>
+                                <div> Closes at: {closing_time} </div>
+                                <p>rating: <HotnessDisplay rating={deets.rating}/></p>
+                                <p>price_level: {deets.price_level}</p>
+                                {/* <p>reviews: {deets.reviews}</p> */}
+                                <p>website: {deets.website}</p>
+                            </CardText>
+                        </Card>
                     </div>
                 ) : null
                 }
