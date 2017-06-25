@@ -33,7 +33,6 @@ class Landing extends Component {
     handleFocusChange(focus, params={}) {
         return () => {
             const { updateFocus } = this.props;
-            console.log(params);
             updateFocus(focus, params);
         };
     }

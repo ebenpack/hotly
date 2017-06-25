@@ -13,7 +13,10 @@ class CheckIn extends Component {
 
         this.state = {
             location: props.params.locationName,
-            allowUserToTypeLocation: !props.params.locationName
+            allowUserToTypeLocation: !props.params.locationName,
+            noiseLevel: "",
+            crowdSize: "",
+            amenities: "",
         };
 
         console.log(props);
@@ -70,15 +73,21 @@ class CheckIn extends Component {
                         title="How loud is it?"
                     />
                     <CardActions>
-                        <RaisedButton>
-                            Quiet
-                        </RaisedButton>
-                        <RaisedButton>
-                            Noisy
-                        </RaisedButton>
-                        <RaisedButton>
-                            LOUD
-                        </RaisedButton>
+                        <RaisedButton
+                            label="Quiet"
+                            onTouchTap={() => this.setState({noiseLevel: "quiet"}) }
+                            {... this.state.noiseLevel === "quiet" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Noisy"
+                            onTouchTap={() => this.setState({noiseLevel: "noisy"}) }
+                            {... this.state.noiseLevel === "noisy" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="LOUD"
+                            onTouchTap={() => this.setState({noiseLevel: "loud"}) }
+                            {... this.state.noiseLevel === "loud" ? {backgroundColor: "#CCC"} : {}}
+                        />
                     </CardActions>
                 </Card>
                 <Card>
@@ -86,15 +95,21 @@ class CheckIn extends Component {
                         title="How packed is it?"
                     />
                     <CardActions>
-                        <RaisedButton>
-                            Empty
-                        </RaisedButton>
-                        <RaisedButton>
-                            Busy
-                        </RaisedButton>
-                        <RaisedButton>
-                            Packed
-                        </RaisedButton>
+                        <RaisedButton
+                            label="Empty"
+                            onTouchTap={() => this.setState({crowdLevel: "empty"}) }
+                            {... this.state.crowdLevel === "empty" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Busy"
+                            onTouchTap={() => this.setState({crowdLevel: "busy"}) }
+                            {... this.state.crowdLevel === "busy" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Packed"
+                            onTouchTap={() => this.setState({crowdLevel: "packed"}) }
+                            {... this.state.crowdLevel === "packed" ? {backgroundColor: "#CCC"} : {}}
+                        />
                     </CardActions>
                 </Card>
                 <Card>
@@ -102,23 +117,25 @@ class CheckIn extends Component {
                         title="What's there?"
                     />
                     <CardActions>
-                        <RaisedButton>
-                            Music
-                        </RaisedButton>
-                        <RaisedButton>
-                            Dancing
-                        </RaisedButton>
-                        <RaisedButton>
-                            Food
-                        </RaisedButton>
+                        <RaisedButton
+                            label="Music"
+                            onTouchTap={() => this.setState({amenities: "music"}) }
+                            {... this.state.amenities === "music" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Dancing"
+                            onTouchTap={() => this.setState({amenities: "dancing"}) }
+                            {... this.state.amenities === "dancing" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Food"
+                            onTouchTap={() => this.setState({amenities: "food"}) }
+                            {... this.state.amenities === "food" ? {backgroundColor: "#CCC"} : {}}
+                        />
                     </CardActions>
                 </Card>
             </div>
         );
-    }
-
-    getGeoLocation() {
-        // return App.state.location
     }
 }
 
