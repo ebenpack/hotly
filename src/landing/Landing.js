@@ -33,6 +33,7 @@ class Landing extends Component {
     handleFocusChange(focus, params={}) {
         return () => {
             const { updateFocus } = this.props;
+            console.log(params);
             updateFocus(focus, params);
         };
     }
@@ -159,7 +160,7 @@ class Landing extends Component {
                         right: 20,
                         zIndex: 9999
                 }}
-                onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE)}
+                onTouchTap={this.handleFocusChange(consts.pages.CHECKIN_PAGE, {locationName: this.state.hotSpots[0] ? this.state.hotSpots[0].name : null})}
             >
                 <ContentAdd />
             </FloatingActionButton>
