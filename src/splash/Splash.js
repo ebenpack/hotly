@@ -1,5 +1,4 @@
 import React from 'react';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 
@@ -9,34 +8,24 @@ const Splash = ({splashIsOpen, close}) => (
             modal={false}
             open={splashIsOpen}
             contentStyle={{width: '100%', transform: 'translate(0, 0)'}}
-            bodyStyle={{padding: 0}}
-            style={{paddingTop: 0, height: '100vh'}}
+            bodyStyle={{padding: 20}}
+            style={{padding: 20, height: '100vh'}}
+            actions={<FlatButton label="Get Started!" onTouchTap={close}/>}
     >
-        <Card>
-            <CardHeader
-                title="Welcome to Hotly!"
-            />
-            <CardText>
-                Welcome to Hotly! The 'hot' new webapp designed to help you find the hot nightspots in your area.
-                Find what's going on near you, and where the 'hotspots' are.
-                Then check in to let others know what you think about stuff.
+        Welcome to Hotly! The 'hot' new webapp designed to help you find the hot nightspots in your area.
+        Find what's going on near you, and where the 'hotspots' are.
+        Then check in to let others know what you think about stuff.
 
-                <br />
-                <br />
+        <br />
+        <br />
 
-                So don't get left out in the 'cold'... join hotly.
+        So don't get left out in the 'cold'... join hotly.
 
-                <br />
-                <br />
+        <br />
+        <br />
 
-                We'd like your geolocation for this webapp to work.
-            </CardText>
-            <CardActions>
-                <FlatButton label="Get Started!" onTouchTap={close}/>
-            </CardActions>
-        </Card>
+        We'd like your geolocation for this webapp to work.
     </Dialog>
 );
-
 
 export default Splash;
