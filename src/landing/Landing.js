@@ -37,9 +37,9 @@ class Landing extends Component {
         };
     }
 
-    locationSearch(type){
+    locationSearch(type, location){
         this.setState({hotSpots: []});
-        const {location, map} = this.props;
+        const {map} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
         service.nearbySearch({
             location: location,
@@ -60,7 +60,15 @@ class Landing extends Component {
     }
 
     componentDidMount() {
-        this.locationSearch(this.state.type)
+        if (this.state.location) {
+            this.locationSearch(this.state.type, this.state.location)
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location) {
+            this.locationSearch(this.state.type, nextProps.location)
+        }
     }
 
     handleChange = (value) => {
@@ -77,7 +85,7 @@ class Landing extends Component {
             slideIndex: value,
             loading: true
         });
-        this.locationSearch(type);
+        this.locationSearch(type, this.props.location);
     };
 
     hotSort(hotSpots) {
@@ -89,6 +97,9 @@ class Landing extends Component {
     }
 
     render() {
+        // This is kind of shitty, but whatevs. We don't want to just show
+        // a spinner if we don't even have a location to use to fetch data
+        const loading = this.state.loading && !!(this.state.location);
         const sortedHotSpots = this.hotSort(this.state.hotSpots);
 
         const secondaryText = (hotSpot) => (
@@ -129,7 +140,7 @@ class Landing extends Component {
             </div>
 
             <div style={{position:'relative', paddingTop:'49px'}}>
-                {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
+                {loading ? <LinearProgress mode="indeterminate" /> : null}
                 <SwipeableViews
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
