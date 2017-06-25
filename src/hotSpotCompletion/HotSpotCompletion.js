@@ -10,7 +10,8 @@ class HotSpotCompletion extends Component {
         super(props);
 
         this.state = {
-            dataSource: []
+            dataSource: [],
+            searchText: ''
         };
 
         this.handleChangeLocation = this.handleChangeLocation.bind(this);
@@ -19,6 +20,7 @@ class HotSpotCompletion extends Component {
     handleChangeLocation(hotSpot) {
         const {updateLocation} = this.props;
         updateLocation(hotSpot);
+        this.setState({searchText: '',})
     }
 
     componentWillMount() {
@@ -34,21 +36,31 @@ class HotSpotCompletion extends Component {
             .then((response) => {
                 that.setState({
                     dataSource: response.data.response.venues.map(venue => venue.name)
-                })
+                });
             })
             .catch(function (error) {
                 console.log(error);
             });
     }
 
+    handleUpdateInput (searchText) {
+        this.setState({
+            searchText: searchText,
+        });
+    }
+
+
     render() {
         return (
             <div>
                 <AutoComplete
+                    searchText={this.state.searchText}
                     hintText="Where are you at?"
                     dataSource={this.state.dataSource}
+                    onUpdateInput={this.handleUpdateInput.bind(this)}
                     onNewRequest={this.handleChangeLocation}
-                    filter={(data) => data}
+                    openOnFocus={true}
+                    filter={AutoComplete.fuzzyFilter}
                 />
             </div>
         );
