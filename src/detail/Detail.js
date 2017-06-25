@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import {HotnessDisplay} from '../hotness/Hotness';
 import searchVenues, {getFoursquareVenueFromGooglePlace} from '../data/foursquare';
@@ -85,8 +87,22 @@ class Detail extends Component {
             );
         };
 
+        let closing_time = 'N/A';
+        if (deets && deets.opening_hours) {
+            const date = new Date();
+            const day = date.getDay();
+            if (deets.opening_hours.periods[day]) {
+                const hour = deets.opening_hours.periods[day]['close'].hours
+                let minutes = deets.opening_hours.periods[day]['close'].minutes
+                if (minutes.toString().length === 1) {
+                    minutes = '0' + minutes;
+                }
+                closing_time = ((hour + 11) % 12 + 1) + ':'  + minutes;
+            }
+        }
 
         // TODO: Some loading spinner bullshit
+
         return (
             <div className="Detail" style={{
                 position: 'relative',
@@ -107,11 +123,18 @@ class Detail extends Component {
                                 </GridTile>
                             ))}
                         </GridList>
-                        {deets.formatted_address ? <p>Address: {deets.formatted_address}</p> : null}
-                        {deets.international_phone_number ? <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.international_phone_number}</a></p> : null}
-                        {deets.opening_hours ? <p>Hours: {deets.opening_hours.weekday_text}</p> : null}
-                        {deets.rating ? <p>rating: <HotnessDisplay rating={deets.rating}/></p> : null}
-                        {deets.price_level ? <p>price_level: {deets.price_level}</p> : null}
+                        <Card>
+                            <CardTitle title={deets.name} />
+                            <CardText>
+                                <p>Address: {deets.formatted_address}</p>
+                                <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a></p>
+                                <div> Closes at: {closing_time} </div>
+                                <p>rating: <HotnessDisplay rating={deets.rating}/></p>
+                                <p>price_level: {deets.price_level}</p>
+                                {/* <p>reviews: {deets.reviews}</p> */}
+                                <p>website: {deets.website}</p>
+                            </CardText>
+                        </Card>
 
                         {foursquareInfo()}
                     </div>
