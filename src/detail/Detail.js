@@ -135,7 +135,6 @@ class Detail extends Component {
                     minutes = '0' + minutes;
                 }
                 closing_time = ((hour + 11) % 12 + 1) + ':'  + minutes;
-                closing_time += hour >= 12 ? ' PM' : ' AM';
             }
         }
 
@@ -192,11 +191,12 @@ class Detail extends Component {
                                         <a style={{color:'#FB3842'}} href={deets.website}>Website</a>
                                         <br/>
                                         <a style={{color:'#FB3842'}} href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
+                                        <br />
+                                        <a style={{color:'#FB3842'}} href={deets.url}>{deets.formatted_address}</a>
                                     </div>
                                 }
                             />
                             <CardText expandable={true}>
-                                <div>Address: {deets.formatted_address}</div>
                                 {deets.reviews ?
                                     deets.reviews.map((review) => (
                                         <Card>
@@ -214,7 +214,7 @@ class Detail extends Component {
                                                 <div>
                                                     <Truncate
                                                         lines={!expanded && 2}
-                                                        ellipsis={<span>... <a href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
+                                                        ellipsis={<span>... <a style={{color:'24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
                                                         {review.text}
                                                     </Truncate>
                                                     {!truncated && expanded && (
