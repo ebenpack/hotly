@@ -32,8 +32,7 @@ class Detail extends Component {
         this.state = {
             deets: null,
             foursquare: null,
-            expanded: false,
-            truncated: false
+            expanded: {}
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -84,18 +83,14 @@ class Detail extends Component {
         }
     }
 
-    handleTruncate(truncated) {
-        if (this.state.truncated !== truncated) {
-            this.setState({
-                truncated
-            });
-        }
-    }
-
     toggleLines(event) {
+        const id = event.target.dataset.id
         event.preventDefault();
+        let expanded = this.state.expanded;
+        debugger;
+        expanded[id] = !expanded.id
         this.setState({
-            expanded: !this.state.expanded
+            expanded: expanded
         });
     }
 
@@ -147,8 +142,7 @@ class Detail extends Component {
         }
 
         const {
-            expanded,
-            truncated
+            expanded
         } = this.state;
 
         // TODO: Some loading spinner bullshit
@@ -198,7 +192,7 @@ class Detail extends Component {
                             />
                             <CardText expandable={true}>
                                 {deets.reviews ?
-                                    deets.reviews.map((review) => (
+                                    deets.reviews.map((review,id) => (
                                         <Card>
                                             <CardHeader
                                                 avatar={
@@ -213,12 +207,18 @@ class Detail extends Component {
                                                 {<HotnessDisplay rating={review.rating}/>}
                                                 <div>
                                                     <Truncate
-                                                        lines={!expanded && 2}
-                                                        ellipsis={<span>... <a style={{color:'24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
+                                                        lines={!expanded[id] && 2}
+                                                        ellipsis={
+                                                            <span>...
+                                                                <a data-id={id} style={{color:'#24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>More</a>
+                                                            </span>
+                                                        }>
                                                         {review.text}
                                                     </Truncate>
-                                                    {!truncated && expanded && (
-                                                        <span> <a href='#' onClick={this.toggleLines.bind(this)}>Less</a></span>
+                                                    {expanded[id] && (
+                                                        <span>
+                                                            <a data-id={id} style={{color:'#24A39A'}} href='#' onClick={this.toggleLines.bind(this)}>Less</a>
+                                                            </span>
                                                     )}
                                                 </div>
                                             </CardText>
