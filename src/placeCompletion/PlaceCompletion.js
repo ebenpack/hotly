@@ -63,11 +63,11 @@ class PlaceCompletion extends Component {
                 // filter to just poop back whatever's in the data source
                 filter={(data) => data}
                 onNewRequest={(name, index) =>
-                    this.state.locationHints.length >= 0
+                    this.state.locationHints.length > 0
                         ? this.props.selectAutocompletion(
-                        // If user hits `enter`, index will be -1, so just grab whateverthefuck
-                        this.state.locationHints[index > -1 ? index : 0]
-                    )
+                            // If user hits `enter`, index will be -1, so just grab whateverthefuck
+                            this.state.locationHints[index > -1 ? index : 0]
+                        )
                         : null
                 }
             />
