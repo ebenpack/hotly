@@ -51,7 +51,10 @@ class App extends Component {
             });
         }
 
-        function error() {/* Just use default location, I guess */}
+        function error() {
+            this.setState({locationModalOpen: true})
+        }
+
         window.onpopstate = ({focus, focusParams}) =>{
             if (!focus) {
                 this.setState({
@@ -68,7 +71,7 @@ class App extends Component {
         let showSplash = window.localStorage.getItem('showSplash') !== "false";
         window.localStorage.setItem('showSplash', false);
         this.setState({splashIsOpen: showSplash});
-        window.navigator.geolocation.getCurrentPosition(success, error);
+        window.navigator.geolocation.getCurrentPosition(success, error.bind(this));
     }
 
     updateFocus(focus, params={}) {
@@ -161,7 +164,7 @@ class App extends Component {
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
-                    <Splash splashIsOpen={this.state.splashIsOpen} close={this.closeSplash} />
+                    <Splash splashIsOpen={this.state.splashIsOpen} close={this.closeSplash.bind(this)} />
                     <Dialog
                         title="Enter your Location"
                         actions={actions}
