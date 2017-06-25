@@ -129,34 +129,37 @@ class Landing extends Component {
                 dist(b.geometry.location));
     }
 
+    ratingsSort(hotSpots) {
+        function helper(a, b) {
+            let aRating = (a.rating || 0);
+            let bRating = (b.rating || 0);
+            if (bRating !== aRating) {
+                return bRating - aRating
+            }
+            else {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+            }
+        }
+
+        return hotSpots.sort(helper);
+    }
+
     hotSort(hotSpots) {
         const secondaryText = (hotSpot) => (
             <span style={{whiteSpace:'pre'}}>
                 {hotSpot.vicinity} <div><HotnessDisplay rating={hotSpot.rating}/></div>
             </span>
         );
-        let self = this;
-        function helper(){
-            if (self.state.criteria === 'rating') {
-                return hotSpots.sort((a, b) => {
-                    let aRating = (a.rating || 0);
-                    let bRating = (b.rating || 0);
-                    if (bRating !== aRating) {
-                        return bRating - aRating
-                    }
-                    else {
-                        if(a.name < b.name) return -1;
-                        if(a.name > b.name) return 1;
-                        return 0;
-                    }
-                });
-            } else if (this.state.criteria === 'location') {
-                return this.locationSort(hotSpots);
-            } else{
-                return hotSpots;
-            }
+        let temp = hotSpots;
+        if (this.state.criteria === 'rating') {
+            temp = this.ratingsSort(hotSpots);
+        } else if (this.state.criteria === 'location') {
+            temp = this.locationSort(hotSpots);
         }
-        return hotSpots.sort(helper).map((hotSpot, index) => (
+
+        return temp.map((hotSpot, index) => (
             <div key={hotSpot.id + ' ' + index}>
                 <ListItem
                     primaryText={hotSpot.name}
