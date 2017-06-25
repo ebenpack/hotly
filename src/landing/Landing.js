@@ -6,6 +6,7 @@ import FontIcon from 'material-ui/FontIcon';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import Divider from 'material-ui/Divider';
 
 import consts from '../consts';
@@ -170,7 +171,7 @@ class Landing extends Component {
     render() {
         // This is kind of shitty, but whatevs. We don't want to just show
         // a spinner if we don't even have a location to use to fetch data
-        const loading = this.state.loading && !!(this.state.location);
+        const loading = this.state.loading;
 
         return (
             <div className="Landing" style={{
@@ -190,7 +191,18 @@ class Landing extends Component {
             </div>
 
             <div style={{position:'relative', paddingTop:'49px'}}>
-                {loading ? <LinearProgress mode="indeterminate" /> : null}
+                {loading ? <div style={{
+                    position: 'relative',
+                }}>
+                    <RefreshIndicator
+                        size={40}
+                        left={-20}
+                        top={10}
+                        status={'loading'}
+                        loadingColor="#C58100"
+                        style={{marginLeft: '50%'}}
+                      />
+                </div> : null}
                 <SwipeableViews
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}

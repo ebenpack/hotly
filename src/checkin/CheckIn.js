@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import Hotness from '../hotness/Hotness';
 import HotSpotCompletion from '../hotSpotCompletion/HotSpotCompletion';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 import './CheckIn.css';
 
@@ -51,10 +52,25 @@ class CheckIn extends Component {
     }
 
     render() {
-        const {lat, lng} = this.props.location;
-
+        const lat = this.props.location && this.props.location.lat;
+        const lng = this.props.location && this.props.location.lng;
         return (
-            <div className="CheckIn"
+            (!lat && !lng) ? (
+                <div style={{
+                    position: 'relative',
+                    top: '60px'
+                }}>
+                    <RefreshIndicator
+                        size={40}
+                        left={-20}
+                        top={10}
+                        status={'loading'}
+                        loadingColor="#C58100"
+                        style={{marginLeft: '50%'}}
+                      />
+                </div>
+            ) :
+            (<div className="CheckIn"
                 style={{
                     position: 'relative',
                     top: '60px'
@@ -140,6 +156,7 @@ class CheckIn extends Component {
                     </CardActions>
                 </Card>
             </div>
+            )
         );
     }
 }
