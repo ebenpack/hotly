@@ -26,7 +26,6 @@ class Landing extends Component {
             bar: [],
             night_club: [],
             cafe: [],
-            slideIndex: 0,
             type: type ? type : 'bar',
             slideIndex: slideIndex ? slideIndex : 0,
             criteria: 'rating',
@@ -145,8 +144,8 @@ class Landing extends Component {
                 return hotSpots;
             }
         }
-        return hotSpots.sort(helper).map((hotSpot) => (
-            <div key={hotSpot.id}>
+        return hotSpots.sort(helper).map((hotSpot, index) => (
+            <div key={hotSpot.id + ' ' + index}>
                 <ListItem
                     primaryText={hotSpot.name}
                     secondaryText={secondaryText(hotSpot)}
