@@ -107,9 +107,11 @@ class App extends Component {
     }
 
     render() {
-        const { focus, focusParams } = this.state;
+        const { focus, focusParams, location } = this.state;
         const {map} = this.props;
-        const {location} = this.state;
+
+        const goToLandingPage = () => this.updateFocus(consts.pages.LANDING_PAGE);
+        const isLandingPage = focus => focus === consts.pages.LANDING_PAGE;
 
         // Router
         const currentPage = () => {
@@ -136,8 +138,8 @@ class App extends Component {
             />,
         ];
 
-        const iconElementRight = focus === consts.pages.LANDING_PAGE
-            ? <div>
+        const iconElementRight = (isLandingPage(focus))
+            ? (<div>
                 <RaisedButton
                     label={
                         <FontIcon
@@ -146,13 +148,15 @@ class App extends Component {
                     }
                     onTouchTap={this.toggleLocationModal.bind(this)}
                 />
-            </div>
-            : <div>
+            </div>)
+            : (<div>
 
                 <IconButton>
-                    <NavigationChevronLeft onTouchTap={() => this.updateFocus(consts.pages.LANDING_PAGE)}/>
+                    <NavigationChevronLeft onTouchTap={goToLandingPage}/>
                 </IconButton>
-            </div>
+            </div>);
+
+        const leftIconButtonTouchTap = (!isLandingPage(focus)) ? goToLandingPage : () => {};
 
         return (
             <MuiThemeProvider muiTheme={theme}>
@@ -171,6 +175,7 @@ class App extends Component {
                     <AppBar
                         // title={focus}
                         iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
+                        onLeftIconButtonTouchTap={leftIconButtonTouchTap}
                         iconElementRight={iconElementRight}
                         style={{
                             position: 'fixed'
