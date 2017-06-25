@@ -66,8 +66,12 @@ class Landing extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.location) {
-            this.locationSearch(this.state.type, nextProps.location)
+        if (
+            (nextProps.location && !this.props.location) ||
+            (this.props.location && nextProps.location
+                && this.props.location.lat !== nextProps.location.lat
+                && this.props.location.lng !== nextProps.location.lng)) {
+            this.locationSearch(this.state.type, nextProps.location);
         }
     }
 
