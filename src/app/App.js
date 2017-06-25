@@ -39,8 +39,10 @@ class App extends Component {
         const self = this;
         function success(position) {
             self.setState({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
+                location: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
             });
         }
 
@@ -57,7 +59,7 @@ class App extends Component {
                     focusParams
                 });
             }
-        }
+        };
         window.navigator.geolocation.getCurrentPosition(success, error);
     }
 
@@ -73,6 +75,7 @@ class App extends Component {
         const { focus, focusParams } = this.state;
         const {map} = this.props;
         const {location} = this.state;
+
         // Router
         const currentPage = () => {
             switch (focus) {
@@ -89,11 +92,13 @@ class App extends Component {
                     return <h2>PAGE NOT FOUND</h2>;
             }
         };
+
         const iconElementRight = focus === consts.pages.LANDING_PAGE
             ? null
             : <IconButton>
                     <NavigationChevronLeft onTouchTap={()=>this.updateFocus(consts.pages.LANDING_PAGE)} />
                 </IconButton>;
+
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
