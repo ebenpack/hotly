@@ -3,7 +3,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 
 import {HotnessDisplay} from '../hotness/Hotness';
-import searchVenues, {getFoursquareVenueFromGooglePlace} from '../data/foursquare';
+import searchVenues, {getVenueHours, getFoursquareVenueFromGooglePlace, transformVenueHoursToGoogleFormat} from '../data/foursquare';
 
 import './Detail.css';
 
@@ -18,6 +18,7 @@ class Detail extends Component {
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
+        this.foursquareInfo = this.foursquareInfo.bind(this);
     }
 
     handleFocusChange(focus) {
@@ -46,16 +47,32 @@ class Detail extends Component {
                 // Get Foursquare Data - TODO: run in parallel and join processes with Google Search
                 searchVenues(location.lat, location.lng, googlePlace.name)
                     .then(function (response) {
-                        console.log(response);
-
                         const venues = response.data.response.venues;
+                        const foursquareVeneue = getFoursquareVenueFromGooglePlace(googlePlace, venues);
 
                         that.setState({
-                            foursquare: getFoursquareVenueFromGooglePlace(googlePlace, venues)
+                            foursquare: foursquareVeneue
                         });
+
+                        return foursquareVeneue;
+                    })
+                    .then(function (venue) {
+                        if (!venue || !venue.id) return;
+
+                        getVenueHours(venue.id)
+                            .then(function (response) {
+                                // const hours = response.data.response.hours; // TODO: do we need this if we have Google's hours?
+                                venue['popular_hours'] = response.data.response.popular;
+
+                                that.setState({
+                                    foursquare: venue
+                                })
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
                     })
                     .catch(function (error) {
-                        // probably nothing to do here if there's an error, we just don't show any 4square data
                         console.log(error);
                     });
 
@@ -65,31 +82,41 @@ class Detail extends Component {
         }
     }
 
+    foursquareInfo() {
+        const {foursquare} = this.state;
+        if (!foursquare) return null;
+        const hereNow = foursquare.hereNow;
+        const popularHours = transformVenueHoursToGoogleFormat(foursquare.popular_hours);
+
+        return (
+            <Card>
+                <CardHeader
+                    title="Foursquare"
+                    avatar={require('../img/Foursquare Social.png')}
+                />
+                <CardText>
+                    {hereNow ? (
+                        <span>
+                            <h3>Here now:</h3>
+                            <p>{hereNow.summary} (Check Ins: {hereNow.count})</p>
+                        </span>
+                    ) : null}
+                    {popularHours ? (
+                        <span>
+                            <h3>Popular Hours:</h3>
+                            <p>
+                                {popularHours.weekday_text.map(hours => hours)}
+                            </p>
+                        </span>
+                    ) : null}
+                </CardText>
+            </Card>
+        );
+    }
+
     render() {
         const {params} = this.props;
-        const {deets, foursquare} = this.state;
-
-        const foursquareInfo = () => {
-            if (!foursquare) return null;
-            const hereNow = foursquare.hereNow;
-
-            return (
-                <Card>
-                    <CardHeader
-                        title="Foursquare"
-                        avatar={require('../img/Foursquare Social.png')}
-                    />
-                    <CardText>
-                        {hereNow ? (
-                            <span>
-                                <h3>Here now:</h3>
-                                <p>{hereNow.summary} (Check Ins: {hereNow.count})</p>
-                            </span>
-                            ) : null}
-                    </CardText>
-                </Card>
-            );
-        };
+        const {deets} = this.state;
 
         let closing_time = 'N/A';
         if (deets && deets.opening_hours) {
@@ -140,7 +167,7 @@ class Detail extends Component {
                             </CardText>
                         </Card>
 
-                        {foursquareInfo()}
+                        {this.foursquareInfo()}
                     </div>
                 ) : null
                 }
