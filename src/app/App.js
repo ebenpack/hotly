@@ -25,10 +25,7 @@ class App extends Component {
         this.state = {
             focus: consts.pages.LANDING_PAGE,
             focusParams: {},
-            location: {
-                lat: 43.6423978,
-                lng: -70.2404187
-            },
+            location: null,
             map: props.map
         };
 

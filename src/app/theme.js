@@ -13,7 +13,7 @@ export default {
         accent1Color: '#980008',
         textColor: '#C58100',
         secondaryTextColor: fade(fullWhite, 0.7),
-        alternateTextColor: '#24A39A',
+        alternateTextColor: '#007970',
         canvasColor: '#303030',
         shadowColor: '#303030',
     },
