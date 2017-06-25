@@ -12,7 +12,7 @@ const Splash = ({splashIsOpen, close}) => (
             style={{padding: 20, height: '100vh'}}
             actions={<FlatButton label="Get Started!" onTouchTap={close}/>}
     >
-        Welcome to Hotly! The 'hot' new webapp designed to help you find the hot nightspots in your area.
+        Welcome to Hotly! The 'hot' new Mobile enhanced webapp designed to help you find the hot nightspots in your area.
         Find what's going on near you, and where the 'hotspots' are.
         Then check in to let others know what you think about stuff.
 
