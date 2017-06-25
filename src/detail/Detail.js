@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
-import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import {withGoogleMap, GoogleMap, Marker} from "react-google-maps";
-
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import Truncate from 'react-truncate';
 
 import {HotnessDisplay} from '../hotness/Hotness';
 import searchVenues, {getFoursquareVenueFromGooglePlace} from '../data/foursquare';
@@ -29,7 +31,9 @@ class Detail extends Component {
 
         this.state = {
             deets: null,
-            foursquare: null
+            foursquare: null,
+            expanded: false,
+            truncated: false
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -80,6 +84,21 @@ class Detail extends Component {
         }
     }
 
+    handleTruncate(truncated) {
+        if (this.state.truncated !== truncated) {
+            this.setState({
+                truncated
+            });
+        }
+    }
+
+    toggleLines(event) {
+        event.preventDefault();
+        this.setState({
+            expanded: !this.state.expanded
+        });
+    }
+
     render() {
         const {params} = this.props;
         const {deets, foursquare} = this.state;
@@ -90,15 +109,14 @@ class Detail extends Component {
 
             return (
                 <Card>
-                    <CardHeader
-                        title="Foursquare"
-                        avatar={require('../img/Foursquare Social.png')}
-                    />
                     <CardText>
                         {hereNow ? (
                             <span>
-                                <h3>Here now:</h3>
-                                <p>{hereNow.summary} (Check Ins: {hereNow.count})</p>
+                                <p>
+                                    <img style={{maxHeight:'25px'}}src={require('../img/Foursquare Social.png')}/>
+                                    &nbsp; &nbsp;
+                                    {hereNow.summary} (Check Ins: {hereNow.count})
+                                </p>
                             </span>
                             ) : null}
                     </CardText>
@@ -117,8 +135,22 @@ class Detail extends Component {
                     minutes = '0' + minutes;
                 }
                 closing_time = ((hour + 11) % 12 + 1) + ':'  + minutes;
+                closing_time += hour >= 12 ? ' PM' : ' AM';
             }
         }
+
+        let price_level = '';
+        if (deets && deets.price_level) {
+            price_level = '';
+            for (let i = 1; i <= deets.price_level; i++) {
+                price_level += '$';
+            }
+        }
+
+        const {
+            expanded,
+            truncated
+        } = this.state;
 
         // TODO: Some loading spinner bullshit
 
@@ -136,25 +168,65 @@ class Detail extends Component {
                                 overflowX: 'auto',
                             }}
                         >
-                            {deets.photos.map((photo, i) => (
+                            {deets.photos?
+                            deets.photos.map((photo, i) => (
                                 <GridTile key={i}>
                                     <img alt="location" src={photo.getUrl({'maxWidth': 300, 'maxHeight': 300})}/>
                                 </GridTile>
-                            ))}
+                            )) : null
+                            }
                         </GridList>
                         <Card>
-                            <CardTitle title={deets.name} />
-                            <CardText>
-                                <p>Address: {deets.formatted_address}</p>
-                                <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a></p>
-                                <div> Closes at: {closing_time} </div>
-                                <p>rating: <HotnessDisplay rating={deets.rating}/></p>
-                                <p>price_level: {deets.price_level}</p>
-                                {/* <p>reviews: {deets.reviews}</p> */}
-                                <p>website: {deets.website}</p>
+                            <CardHeader
+                                actAsExpander={true}
+                                showExpandableButton={true}
+                                title={<HotnessDisplay rating={deets.rating}/>}
+                                subtitle={<div>{price_level} <br/> Closes at: {closing_time}<br/> {foursquareInfo()}</div>}
+                                subtitleColor='#C58100'
+                            />
+                            <CardTitle
+                                titleColor='#24A39A'
+                                title={deets.name}
+                                subtitle={
+                                    <div>
+                                        <a style={{color:'#FB3842'}} href={deets.website}>Website</a>
+                                        <br/>
+                                        <a style={{color:'#FB3842'}} href={"tel:" + deets.international_phone_number}>{deets.formatted_phone_number}</a>
+                                    </div>
+                                }
+                            />
+                            <CardText expandable={true}>
+                                <div>Address: {deets.formatted_address}</div>
+                                {deets.reviews ?
+                                    deets.reviews.map((review) => (
+                                        <Card>
+                                            <CardHeader
+                                                avatar={
+                                                    <a href={review.author_url}>
+                                                        <img style={{maxHeight:'50px'}}alt='' src={review.profile_photo_url}/>
+                                                    </a>
+                                                }
+                                                title={review.author_name}
+                                                subtitle={review.relative_time_description}
+                                            />
+                                            <CardText>
+                                                {<HotnessDisplay rating={review.rating}/>}
+                                                <div>
+                                                    <Truncate
+                                                        lines={!expanded && 2}
+                                                        ellipsis={<span>... <a href='#' onClick={this.toggleLines.bind(this)}>More</a></span>}>
+                                                        {review.text}
+                                                    </Truncate>
+                                                    {!truncated && expanded && (
+                                                        <span> <a href='#' onClick={this.toggleLines.bind(this)}>Less</a></span>
+                                                    )}
+                                                </div>
+                                            </CardText>
+                                        </Card>
+                                    )) : null
+                                }
                             </CardText>
                         </Card>
-                        {foursquareInfo()}
                         <HotMap
                             location={{
                                 lat: deets.geometry.location.lat(),
