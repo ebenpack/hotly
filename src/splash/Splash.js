@@ -20,7 +20,16 @@ const Splash = ({splashIsOpen, close}) => (
                 Welcome to Hotly! The 'hot' new webapp designed to help you find the hot nightspots in your area.
                 Find what's going on near you, and where the 'hotspots' are.
                 Then check in to let others know what you think about stuff.
+
+                <br />
+                <br />
+
                 So don't get left out in the 'cold'... join hotly.
+
+                <br />
+                <br />
+
+                We'll need your geolocation for this webapp to work.
             </CardText>
             <CardActions>
                 <FlatButton label="Get Started!" onTouchTap={close}/>

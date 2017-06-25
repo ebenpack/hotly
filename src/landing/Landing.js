@@ -19,7 +19,7 @@ class Landing extends Component {
     constructor(props) {
         super(props);
 
-        const slideIndex = parseInt(localStorage.getItem('value'));
+        const slideIndex = parseInt(localStorage.getItem('value'), 10);
         const type = localStorage.getItem('type');
 
         this.state = {
@@ -102,10 +102,9 @@ class Landing extends Component {
     }
 
     hotSort(hotSpots) {
-        // if (this.state.criteria === 'rating') {
-        //     return hotSpots.sort((a, b) => b.rating - a.rating);
-        // }
         if (this.state.criteria === 'rating') {
+            return hotSpots.sort((a, b) => b.rating - a.rating);
+        } if (this.state.criteria === 'location') {
             return this.locationSort(hotSpots);
         } else {
             return hotSpots;
