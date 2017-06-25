@@ -77,6 +77,7 @@ class Detail extends Component {
                 <Card>
                     <CardHeader
                         title="Foursquare"
+                        avatar={require('../img/Foursquare Social.png')}
                     />
                     <CardText>
                         {hereNow ? <p>Here now: {hereNow.summary} - Check Ins: {hereNow.count}</p> : null}
@@ -90,8 +91,8 @@ class Detail extends Component {
             const date = new Date();
             const day = date.getDay();
             if (deets.opening_hours.periods[day]) {
-                const hour = deets.opening_hours.periods[day]['close'].hours
-                let minutes = deets.opening_hours.periods[day]['close'].minutes
+                const hour = deets.opening_hours.periods[day]['close'].hours;
+                let minutes = deets.opening_hours.periods[day]['close'].minutes;
                 if (minutes.toString().length === 1) {
                     minutes = '0' + minutes;
                 }
