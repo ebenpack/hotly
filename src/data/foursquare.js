@@ -46,31 +46,6 @@ export function getFoursquareVenueFromGooglePlace(googlePlace, foursquareVenues)
     });
 }
 
-/*
-
- 0
- :
- {days: [7], includesToday: true, open: [{start: "1200", end: "2100"}], segments: []}
- 1
- :
- {days: [1], open: [{start: "1500", end: "2000"}], segments: []}
- 2
- :
- {days: [2], open: [{start: "1600", end: "2100"}], segments: []}
- 3
- :
- {days: [3], open: [{start: "1500", end: "2100"}], segments: []}
- 4
- :
- {days: [4], open: [{start: "1500", end: "2200"}], segments: []}
- 5
- :
- {days: [5], open: [{start: "1400", end: "+0100"}], segments: []}
- 6
- :
- {days: [6], open: [{start: "1300", end: "+0100"}], segments: []}
- */
-
 export function transformVenueHoursToGoogleFormat(hours) {
     if (!hours || !hours.timeframes) return null;
 
@@ -102,14 +77,21 @@ export function transformVenueHoursToGoogleFormat(hours) {
                 popular_hours.weekday_text[adjustedDayNum] = `${consts.WEEKDAYS[adjustedDayNum]}: `;
 
                 timeframe.open.forEach((period, index) => {
+                    const startHours = period.start.substring(0, 2);
+                    const startMinutes = period.start.substring(3, 2);
+                    const endHours = period.end.substring(0, 2);
+                    const endMinutes = period.end.substring(3, 2);
+
+                    const startTime = (startHours > 12) ? `${startHours - 12}:${startMinutes}0 PM` : `${startHours}:${startMinutes}0 AM`;
+                    const endTime = (endHours > 12) ? `${endHours - 12}:${endMinutes}0 PM` : `${endHours}:${endMinutes}0 AM`;
+
                     popular_hours.periods.push({
                         open: {day: adjustedDayNum, time: period.start},
                         close: {day: adjustedDayNum, time: period.end}
                     });
 
                     if (index > 0) popular_hours.weekday_text[adjustedDayNum] += `, `;
-                    // TODO: convert to 12 hour time
-                    popular_hours.weekday_text[adjustedDayNum] += `${period.start} - ${period.end}`;
+                    popular_hours.weekday_text[adjustedDayNum] += `${startTime} - ${endTime}`;
                 });
             }
         });

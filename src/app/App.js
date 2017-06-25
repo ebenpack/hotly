@@ -14,6 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import PlaceCompletion from '../placeCompletion/PlaceCompletion'
 import FontIcon from 'material-ui/FontIcon';
+import Splash from '../splash/Splash';
 
 import './App.css';
 import hotlyTheme from './theme';
@@ -33,9 +34,9 @@ class App extends Component {
             map: props.map,
             locationModalOpen: false,
             locationFieldValue: '',
-            locationHints: []
+            locationHints: [],
+            splashIsOpen: false
         };
-
         this.updateFocus = this.updateFocus.bind(this);
     }
 
@@ -64,6 +65,9 @@ class App extends Component {
                 });
             }
         };
+        let showSplash = window.localStorage.getItem('showSplash') !== "false";
+        window.localStorage.setItem('showSplash', false);
+        this.setState({splashIsOpen: showSplash});
         window.navigator.geolocation.getCurrentPosition(success, error);
     }
 
@@ -98,10 +102,16 @@ class App extends Component {
         }
     }
 
+    closeSplash(){
+        this.setState({splashIsOpen: false});
+    }
+
     render() {
-        const { focus, focusParams } = this.state;
+        const { focus, focusParams, location } = this.state;
         const {map} = this.props;
-        const {location} = this.state;
+
+        const goToLandingPage = () => this.updateFocus(consts.pages.LANDING_PAGE);
+        const isLandingPage = focus => focus === consts.pages.LANDING_PAGE;
 
         // Router
         const currentPage = () => {
@@ -128,8 +138,8 @@ class App extends Component {
             />,
         ];
 
-        const iconElementRight = focus === consts.pages.LANDING_PAGE
-            ? <div>
+        const iconElementRight = (isLandingPage(focus))
+            ? (<div>
                 <RaisedButton
                     label={
                         <FontIcon
@@ -138,17 +148,20 @@ class App extends Component {
                     }
                     onTouchTap={this.toggleLocationModal.bind(this)}
                 />
-            </div>
-            : <div>
+            </div>)
+            : (<div>
 
                 <IconButton>
-                    <NavigationChevronLeft onTouchTap={() => this.updateFocus(consts.pages.LANDING_PAGE)}/>
+                    <NavigationChevronLeft onTouchTap={goToLandingPage}/>
                 </IconButton>
-            </div>
+            </div>);
+
+        const leftIconButtonTouchTap = (!isLandingPage(focus)) ? goToLandingPage : () => {};
 
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
+                    <Splash splashIsOpen={this.state.splashIsOpen} close={this.closeSplash} />
                     <Dialog
                         title="Enter your Location"
                         actions={actions}
@@ -162,6 +175,7 @@ class App extends Component {
                     <AppBar
                         // title={focus}
                         iconElementLeft={<img alt="logo" src={require('../img/logo.png')} style={{'maxHeight':'50px'}}/>}
+                        onLeftIconButtonTouchTap={leftIconButtonTouchTap}
                         iconElementRight={iconElementRight}
                         style={{
                             position: 'fixed'
