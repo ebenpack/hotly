@@ -55,6 +55,9 @@ class App extends Component {
             }
         };
         let showSplash = window.localStorage.getItem('showSplash') !== "false";
+        if (!showSplash) {
+            window.navigator.geolocation.getCurrentPosition(success, error);
+        }
         this.setState({splashIsOpen: showSplash});
         const self = this;
         function success(position) {
@@ -70,7 +73,6 @@ class App extends Component {
         function error() {
             self.setState({locationModalOpen: true})
         }
-        window.navigator.geolocation.getCurrentPosition(success, error);
     }
 
     updateFocus(focus, params={}) {
@@ -105,7 +107,22 @@ class App extends Component {
     }
 
     closeSplash(){
+        const self = this;
+        function success(position) {
+            self.setState({
+                location: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
+            });
+            window.localStorage.setItem('showSplash', false);
+        }
+
+        function error() {
+            self.setState({locationModalOpen: true})
+        }
         this.setState({splashIsOpen: false});
+        window.navigator.geolocation.getCurrentPosition(success, error);
     }
 
     render() {
@@ -145,6 +162,7 @@ class App extends Component {
                 <RaisedButton
                     label={
                         <FontIcon
+                            color={'#303030'}
                             className="fa fa-map-marker"
                         />
                     }

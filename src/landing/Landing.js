@@ -1,3 +1,4 @@
+import { grey400, grey700 } from 'material-ui/styles/colors';
 import React, {Component} from 'react';
 import {List, ListItem} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -21,6 +22,7 @@ class Landing extends Component {
         super(props);
 
         const slideIndex = parseInt(localStorage.getItem('value'), 10);
+        const orderingType = parseInt(localStorage.getItem('ordering'), 10);
         const type = localStorage.getItem('type');
 
         this.state = {
@@ -29,7 +31,7 @@ class Landing extends Component {
             cafe: [],
             type: type ? type : 'bar',
             slideIndex: slideIndex ? slideIndex : 0,
-            criteria: 'rating',
+            orderingType: orderingType ? orderingType : 'rating',
             loading: true
         };
 
@@ -45,7 +47,6 @@ class Landing extends Component {
 
     locationSearch(type, location){
         if(!location) {
-            console.log("No location provided!");
             return;
         }
         this.setState({hotSpots: []});
@@ -111,10 +112,20 @@ class Landing extends Component {
         localStorage.setItem('type', type);
     }
 
+    handleOrderingChange = (value) => {
+        if (value === 0) {
+            value = 'rating';
+        } else if (value === 1) {
+            value = 'location';
+        }
+        this.setState({
+            orderingType: value,
+        });
+        localStorage.setItem('ordering', value);
+    }
+
     locationSort(hotSpots) {
-        console.log('bp', hotSpots);
         if (!this.props.location) {
-            console.log("No location provided!");
             return hotSpots
         }
 
@@ -134,10 +145,10 @@ class Landing extends Component {
             let aRating = (a.rating || 0);
             let bRating = (b.rating || 0);
             if (bRating !== aRating) {
-                return bRating - aRating
+                return  bRating - aRating;
             }
             else {
-                if (a.name < b.name) return -1;
+                if (a.name < b.name) return - 1;
                 if (a.name > b.name) return 1;
                 return 0;
             }
@@ -153,9 +164,9 @@ class Landing extends Component {
             </span>
         );
         let temp = hotSpots;
-        if (this.state.criteria === 'rating') {
+        if (this.state.orderingType === 'rating') {
             temp = this.ratingsSort(hotSpots);
-        } else if (this.state.criteria === 'location') {
+        } else if (this.state.orderingType === 'location') {
             temp = this.locationSort(hotSpots);
         }
 
@@ -193,17 +204,29 @@ class Landing extends Component {
                 </Tabs>
             </div>
 
-            <div style={{position:'relative', paddingTop:'49px'}}>
+            <div style={{position:'fixed', width:'100%', zIndex:'1000', top:'108px'}}>
+                <Tabs
+                    onChange={this.handleOrderingChange}
+                    value={this.state.orderingType}
+                    tabItemContainerStyle={{background:grey700}}
+                    inkBarStyle={{background:grey700}}
+                >
+                    <Tab style={this.state.orderingType === 'rating' ? {color:grey400} : {color:'#303030'}} label='hotness' value={0} />
+                    <Tab style={this.state.orderingType === 'location' ? {color:grey400} : {color:'#303030'}} label='location' value={1} />
+                </Tabs>
+            </div>
+
+            <div style={{position:'relative', paddingTop:'80px'}}>
                 {loading ? <div style={{
                     position: 'relative',
                 }}>
-                    <RefreshIndicator
-                        size={40}
-                        left={-20}
-                        top={10}
-                        status={'loading'}
-                        loadingColor="#C58100"
-                        style={{marginLeft: '50%'}}
+                <RefreshIndicator
+                    size={40}
+                    left={-20}
+                    top={10}
+                    status={'loading'}
+                    loadingColor="#C58100"
+                    style={{marginLeft: '50%'}}
                       />
                 </div> : null}
                 <SwipeableViews
@@ -235,6 +258,7 @@ class Landing extends Component {
                         right: 20,
                         zIndex: 9999
                 }}
+                disabled={!this.props.location}
                 onTouchTap={this.handleFocusChange(
                     consts.pages.CHECKIN_PAGE,
                     {locationName: this.state[this.state.type][0] ? this.state[this.state.type][0].name : null}
