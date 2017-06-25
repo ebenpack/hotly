@@ -145,6 +145,7 @@ class App extends Component {
                 <RaisedButton
                     label={
                         <FontIcon
+                            color={'#303030'}
                             className="fa fa-map-marker"
                         />
                     }
