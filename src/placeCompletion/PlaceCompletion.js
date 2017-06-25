@@ -56,7 +56,7 @@ class PlaceCompletion extends Component {
         return (
             <AutoComplete
                 open={this.state.locationHints.length > 0}
-                hintText="Enter your locaiton"
+                hintText="Enter your location"
                 dataSource={this.state.locationHints.map((result) => result.description)}
                 onUpdateInput={this.updateLocationField.bind(this)}
                 // This component doesn't work like you think it works. We need to override the
