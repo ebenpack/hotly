@@ -88,7 +88,7 @@ class Detail extends Component {
         event.preventDefault();
         let expanded = this.state.expanded;
         debugger;
-        expanded[id] = !expanded.id
+        expanded[id] = !expanded[id]
         this.setState({
             expanded: expanded
         });
