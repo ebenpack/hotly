@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import AppBar from 'material-ui/AppBar';
 import {List, ListItem} from 'material-ui/List';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -7,12 +6,12 @@ import FontIcon from 'material-ui/FontIcon';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import SwipeableViews from 'react-swipeable-views';
 import LinearProgress from 'material-ui/LinearProgress';
-import Disco from './Disco';
 import Divider from 'material-ui/Divider';
 
 import consts from '../consts';
 import { HotnessDisplay } from '../hotness/Hotness';
 
+import Disco from './Disco';
 import './Landing.css';
 
 
@@ -123,9 +122,9 @@ class Landing extends Component {
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
                 >
-                <Tab icon={<FontIcon className="fa fa-glass" />} value={0} />
-                <Tab icon={<Disco />} value={1} />
-                <Tab icon={<FontIcon className="fa fa-coffee" />} value={2} />
+                    <Tab icon={<FontIcon className="fa fa-glass" />} value={0} />
+                    <Tab icon={<Disco />} value={1} />
+                    <Tab icon={<FontIcon className="fa fa-coffee" />} value={2} />
                 </Tabs>
             </div>
 

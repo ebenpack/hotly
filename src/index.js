@@ -17,7 +17,7 @@ function render(){
 }
 window.render = render;
 
-var script = document.createElement('script');
+let script = document.createElement('script');
 script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA9MYxEG77iL5iaRjeHONPjM_O4sQtXjpc&libraries=places";
 script.onload = render;
 document.body.appendChild(script);

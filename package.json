@@ -8,6 +8,7 @@
     "url": "git+https://github.com/Hackbit/reactriot2017-hotly.git"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "material-ui": "^0.18.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
