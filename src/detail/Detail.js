@@ -135,7 +135,6 @@ class Detail extends Component {
                     minutes = '0' + minutes;
                 }
                 closing_time = ((hour + 11) % 12 + 1) + ':'  + minutes;
-                closing_time += hour >= 12 ? ' PM' : ' AM';
             }
         }
 
