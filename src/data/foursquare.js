@@ -56,53 +56,26 @@ export function getFoursquareVenueFromGooglePlace(googlePlace, foursquareVenues)
 export function transformVenueHoursToGoogleFormat(hours) {
     if (!hours || !hours.timeframes) return null;
 
-    const popular_hours = {
-        popular_today: false,
-        periods: [],
-        weekday_text: [
-            'Monday: Closed',
-            'Tuesday: Closed',
-            'Wednesday: Closed',
-            'Thursday: Closed',
-            'Friday: Closed',
-            'Saturday: Closed',
-            'Sunday: Closed'
-        ]
-    };
+    let popular_hours = '';
 
     const date = new Date();
     const todayNum = date.getDay();
 
-    hours.timeframes.forEach((timeframe) => {
-        const days = timeframe.days;
+    const adjustedDayNum = todayNum === 7 ? 0 : todayNum; // adjust Sunday to 0 instead of 7
 
-        days.forEach((dayNum) => {
-            const adjustedDayNum = dayNum === 7 ? 0 : dayNum; // adjust Sunday to 0 instead of 7
-            popular_hours.popular_today = timeframe.includesToday && adjustedDayNum === todayNum;
+    const today = hours.timeframes[adjustedDayNum]
 
-            if (timeframe.open.length > 0) {
-                popular_hours.weekday_text[adjustedDayNum] = `${consts.WEEKDAYS[adjustedDayNum]}: `;
+    today.open.forEach((period, index) => {
+        const startHours = period.start.substring(0, 2);
+        const startMinutes = period.start.substring(3, 2);
+        const endHours = period.end.substring(0, 2);
+        const endMinutes = period.end.substring(3, 2);
 
-                timeframe.open.forEach((period, index) => {
-                    const startHours = period.start.substring(0, 2);
-                    const startMinutes = period.start.substring(3, 2);
-                    const endHours = period.end.substring(0, 2);
-                    const endMinutes = period.end.substring(3, 2);
+        const startTime = (startHours > 12) ? `${startHours - 12}:${startMinutes}0 PM` : `${startHours}:${startMinutes}0 AM`;
+        const endTime = (endHours > 12) ? `${endHours - 12}:${endMinutes}0 PM` : `${endHours}:${endMinutes}0 AM`;
 
-                    const startTime = (startHours > 12) ? `${startHours - 12}:${startMinutes}0 PM` : `${startHours}:${startMinutes}0 AM`;
-                    const endTime = (endHours > 12) ? `${endHours - 12}:${endMinutes}0 PM` : `${endHours}:${endMinutes}0 AM`;
-
-                    popular_hours.periods.push({
-                        open: {day: adjustedDayNum, time: period.start},
-                        close: {day: adjustedDayNum, time: period.end}
-                    });
-
-                    if (index > 0) popular_hours.weekday_text[adjustedDayNum] += `, `;
-                    popular_hours.weekday_text[adjustedDayNum] += `${startTime} - ${endTime}`;
-                });
-            }
-        });
-    });
+        popular_hours = startTime + ' - ' + endTime
+    })
 
     return popular_hours;
 }

@@ -14,6 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import PlaceCompletion from '../placeCompletion/PlaceCompletion'
 import FontIcon from 'material-ui/FontIcon';
+import Splash from '../splash/Splash';
 
 import './App.css';
 import hotlyTheme from './theme';
@@ -33,9 +34,9 @@ class App extends Component {
             map: props.map,
             locationModalOpen: false,
             locationFieldValue: '',
-            locationHints: []
+            locationHints: [],
+            splashIsOpen: false
         };
-
         this.updateFocus = this.updateFocus.bind(this);
     }
 
@@ -50,7 +51,10 @@ class App extends Component {
             });
         }
 
-        function error() {/* Just use default location, I guess */}
+        function error() {
+            this.setState({locationModalOpen: true})
+        }
+
         window.onpopstate = ({focus, focusParams}) =>{
             if (!focus) {
                 this.setState({
@@ -64,7 +68,10 @@ class App extends Component {
                 });
             }
         };
-        window.navigator.geolocation.getCurrentPosition(success, error);
+        let showSplash = window.localStorage.getItem('showSplash') !== "false";
+        window.localStorage.setItem('showSplash', false);
+        this.setState({splashIsOpen: showSplash});
+        window.navigator.geolocation.getCurrentPosition(success, error.bind(this));
     }
 
     updateFocus(focus, params={}) {
@@ -96,6 +103,10 @@ class App extends Component {
                 }
             });
         }
+    }
+
+    closeSplash(){
+        this.setState({splashIsOpen: false});
     }
 
     render() {
@@ -153,6 +164,7 @@ class App extends Component {
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
+                    <Splash splashIsOpen={this.state.splashIsOpen} close={this.closeSplash.bind(this)} />
                     <Dialog
                         title="Enter your Location"
                         actions={actions}

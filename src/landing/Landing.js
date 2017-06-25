@@ -19,10 +19,13 @@ class Landing extends Component {
     constructor(props) {
         super(props);
 
+        const slideIndex = parseInt(localStorage.getItem('value'));
+        const type = localStorage.getItem('type');
+
         this.state = {
             hotSpots: [],
-            type: 'bar',
-            slideIndex: 0,
+            type: type ? type : 'bar',
+            slideIndex: slideIndex ? slideIndex : 0,
             criteria: 'rating',
             loading: true
         };
@@ -38,6 +41,10 @@ class Landing extends Component {
     }
 
     locationSearch(type, location){
+        if(!location) {
+            console.log("No location provided!");
+            return;
+        }
         this.setState({hotSpots: []});
         const {map} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
@@ -89,22 +96,45 @@ class Landing extends Component {
             slideIndex: value,
             loading: true
         });
+        localStorage.setItem('value', value);
+        localStorage.setItem('type', type);
         this.locationSearch(type, this.props.location);
-    };
+    }
 
     hotSort(hotSpots) {
+        // if (this.state.criteria === 'rating') {
+        //     return hotSpots.sort((a, b) => b.rating - a.rating);
+        // }
         if (this.state.criteria === 'rating') {
-            return hotSpots.sort((a, b) => b.rating - a.rating);
+            return this.locationSort(hotSpots);
         } else {
             return hotSpots;
         }
+    }
+
+    locationSort(hotSpots) {
+        console.log('bp', hotSpots);
+        if (!this.props.location) {
+            console.log("No location provided!");
+            return hotSpots
+        }
+
+        const loc = {
+            lat: () => this.props.location.lat,
+            lng: () => this.props.location.lng
+        }
+        const dist = (latLng) => window.google.maps.geometry.spherical.computeDistanceBetween(latLng, loc);
+        return hotSpots.sort(
+            (a, b) =>
+                dist(a.geometry.location) -
+                dist(b.geometry.location));
     }
 
     render() {
         // This is kind of shitty, but whatevs. We don't want to just show
         // a spinner if we don't even have a location to use to fetch data
         const loading = this.state.loading && !!(this.state.location);
-        const sortedHotSpots = this.hotSort(this.state.hotSpots);
+        const sortedHotSpots = this.hotSort(this.state.hotSpots) || [];
 
         const secondaryText = (hotSpot) => (
             <span style={{whiteSpace:'pre'}}>
@@ -114,7 +144,7 @@ class Landing extends Component {
 
         const listItems = sortedHotSpots.map((hotSpot) => {
             return (
-                <div>
+                <div key={hotSpot.id}>
                     <ListItem
                         key={hotSpot.id}
                         primaryText={hotSpot.name}
