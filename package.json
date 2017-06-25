@@ -14,7 +14,8 @@
     "react-dom": "^15.6.1",
     "react-google-maps": "^7.0.0",
     "react-swipeable-views": "^0.12.3",
-    "react-tap-event-plugin": "^2.0.1"
+    "react-tap-event-plugin": "^2.0.1",
+    "react-truncate": "^2.1.4"
   },
   "devDependencies": {
     "gh-pages": "^1.0.0",
