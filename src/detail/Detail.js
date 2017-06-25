@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
-import consts from '../consts';
 import {HotnessDisplay} from '../hotness/Hotness';
+import searchVenues, {getFoursquareVenueFromGooglePlace} from '../data/foursquare';
 
 import './Detail.css';
 
@@ -14,7 +13,8 @@ class Detail extends Component {
         super(props);
 
         this.state = {
-            deets: null
+            deets: null,
+            foursquare: null
         };
 
         this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -28,18 +28,37 @@ class Detail extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const {location, map, params} = this.props;
         const service = new window.google.maps.places.PlacesService(map);
         service.getDetails({
             placeId: params.place_id
         }, callback.bind(this));
 
-        function callback(results, status) {
+        function callback(googlePlace, status) {
+            const that = this;
+
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                 this.setState({
-                    deets: results
+                    deets: googlePlace
                 });
+
+                // Get Foursquare Data - TODO: run in parallel and join processes with Google Search
+                searchVenues(location.lat, location.lng, googlePlace.name)
+                    .then(function (response) {
+                        console.log(response);
+
+                        const venues = response.data.response.venues;
+
+                        that.setState({
+                            foursquare: getFoursquareVenueFromGooglePlace(googlePlace, venues)
+                        });
+                    })
+                    .catch(function (error) {
+                        // probably nothing to do here if there's an error, we just don't show any 4square data
+                        console.log(error);
+                    });
+
             } else {
                 // TODO: Errors? I dgaf
             }
@@ -48,7 +67,25 @@ class Detail extends Component {
 
     render() {
         const {params} = this.props;
-        const {deets} = this.state;
+        const {deets, foursquare} = this.state;
+
+        const foursquareInfo = () => {
+            if (!foursquare) return null;
+            const hereNow = foursquare.hereNow;
+
+            return (
+                <Card>
+                    <CardHeader
+                        title="Foursquare"
+                    />
+                    <CardText>
+                        {hereNow ? <p>Here now: {hereNow.summary} - Check Ins: {hereNow.count}</p> : null}
+                    </CardText>
+                </Card>
+            );
+        };
+
+
         // TODO: Some loading spinner bullshit
         return (
             <div className="Detail" style={{
@@ -70,11 +107,13 @@ class Detail extends Component {
                                 </GridTile>
                             ))}
                         </GridList>
-                        <p>Address: {deets.formatted_address}</p>
-                        <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.international_phone_number}</a></p>
-                        <p>Hours: {deets.opening_hours && deets.opening_hours.weekday_text}</p>
-                        <p>rating: <HotnessDisplay rating={deets.rating}/></p>
-                        <p>price_level: {deets.price_level}</p>
+                        {deets.formatted_address ? <p>Address: {deets.formatted_address}</p> : null}
+                        {deets.international_phone_number ? <p>Phone_number: <a href={"tel:" + deets.international_phone_number}>{deets.international_phone_number}</a></p> : null}
+                        {deets.opening_hours ? <p>Hours: {deets.opening_hours.weekday_text}</p> : null}
+                        {deets.rating ? <p>rating: <HotnessDisplay rating={deets.rating}/></p> : null}
+                        {deets.price_level ? <p>price_level: {deets.price_level}</p> : null}
+
+                        {foursquareInfo()}
                     </div>
                 ) : null
                 }
