@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
-
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 import Hotness from '../hotness/Hotness';
 
 import './CheckIn.css';
@@ -10,8 +11,15 @@ class CheckIn extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            location: props.params.locationName,
+            allowUserToTypeLocation: !props.params.locationName,
+            noiseLevel: "",
+            crowdSize: "",
+            amenities: {},
+        };
 
+        console.log(props);
         this.handleFocusChange = this.handleFocusChange.bind(this);
     }
 
@@ -22,12 +30,47 @@ class CheckIn extends Component {
         };
     }
 
+    toggleMusic() {
+        let amenities = this.state.amenities;
+        amenities['music'] = !amenities['music']
+        this.setState({amenities: amenities})
+    }
+
+    toggleDancing() {
+        let amenities = this.state.amenities;
+        amenities['dancing'] = !amenities['dancing']
+        this.setState({amenities: amenities})
+    }
+
     render() {
         return (
-             <div className="CheckIn" style={{
-                position: 'relative',
-                top: '60px'
-                }}>
+            <div className="CheckIn"
+                style={{
+                    position: 'relative',
+                    top: '60px'
+                }}
+            >
+                { this.state.allowUserToTypeLocation ?
+                    <Card>
+                        <CardTitle
+                            title="Enter Your Location"
+                        />
+                        <CardActions>
+                            <TextField
+                                name="userEnteredLocation"
+                            />
+                        </CardActions>
+                    </Card>
+                    :
+                    <Card
+                        onTouchTap={() => { this.setState({allowUserToTypeLocation: !this.state.allowUserToTypeLocation}) }}
+                    >
+                        <CardTitle
+                            title={this.state.location}
+                            subtitle="Not here?"
+                        />
+                    </Card>
+                }
                 <Card>
                     <CardHeader
                         title="How hot is it?"
@@ -36,6 +79,57 @@ class CheckIn extends Component {
                     <CardText>
                         <Hotness rating={0} total={5}/>
                     </CardText>
+                </Card>
+                <Card>
+                    <CardHeader
+                        title="How loud is it?"
+                    />
+                    <CardActions>
+                        <RaisedButton
+                            label="Quiet"
+                            onTouchTap={() => this.setState({noiseLevel: "quiet"}) }
+                            {... this.state.noiseLevel === "quiet" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Loud"
+                            onTouchTap={() => this.setState({noiseLevel: "loud"}) }
+                            {... this.state.noiseLevel === "loud" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                    </CardActions>
+                </Card>
+                <Card>
+                    <CardHeader
+                        title="How packed is it?"
+                    />
+                    <CardActions>
+                        <RaisedButton
+                            label="Empty"
+                            onTouchTap={() => this.setState({crowdLevel: "empty"}) }
+                            {... this.state.crowdLevel === "empty" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Busy"
+                            onTouchTap={() => this.setState({crowdLevel: "busy"}) }
+                            {... this.state.crowdLevel === "busy" ? {backgroundColor: "#CCC"} : {}}
+                        />
+                    </CardActions>
+                </Card>
+                <Card>
+                    <CardHeader
+                        title="What's there?"
+                    />
+                    <CardActions>
+                        <RaisedButton
+                            label="Music"
+                            onTouchTap={this.toggleMusic.bind(this)}
+                            {... this.state.amenities['music'] ? {backgroundColor: "#CCC"} : {}}
+                        />
+                        <RaisedButton
+                            label="Dancing"
+                            onTouchTap={this.toggleDancing.bind(this)}
+                            {... this.state.amenities['dancing'] ? {backgroundColor: "#CCC"} : {}}
+                        />
+                    </CardActions>
                 </Card>
             </div>
         );
