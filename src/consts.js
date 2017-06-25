@@ -10,7 +10,11 @@ export default {
         VENUE_BASE_URL: 'https://api.foursquare.com/v2/venues',
         VENUE_SEARCH_URL: '/search',
         VENUE_HOURS_URL: '/hours',
-        CATEGORY_ID: '4d4b7105d754a06376d81259', // category = 'Nightlife Spot'
+        CATEGORY_ID: {
+            NIGHTLIFE_SPOT: '4d4b7105d754a06376d81259',
+            COFFEE_SHOP: '4bf58dd8d48988d1e0931735',
+            CAFE: '4bf58dd8d48988d16d941735'
+        },
         INTENT: {
             MATCH: 'match',
             CHECK_IN: 'checkin'

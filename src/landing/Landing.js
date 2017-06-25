@@ -19,12 +19,16 @@ class Landing extends Component {
     constructor(props) {
         super(props);
 
+        const slideIndex = parseInt(localStorage.getItem('value'), 10);
+        const type = localStorage.getItem('type');
+
         this.state = {
             bar: [],
             night_club: [],
             cafe: [],
-            type: 'bar',
             slideIndex: 0,
+            type: type ? type : 'bar',
+            slideIndex: slideIndex ? slideIndex : 0,
             criteria: 'rating',
             loading: true
         };
@@ -40,6 +44,11 @@ class Landing extends Component {
     }
 
     locationSearch(type, location){
+        if(!location) {
+            console.log("No location provided!");
+            return;
+        }
+        this.setState({hotSpots: []});
         let newState = {};
         newState[type] = [];
         this.setState(newState);
@@ -98,7 +107,28 @@ class Landing extends Component {
             type: type,
             slideIndex: value,
         });
-    };
+        localStorage.setItem('value', value);
+        localStorage.setItem('type', type);
+        this.locationSearch(type, this.props.location);
+    }
+
+    locationSort(hotSpots) {
+        console.log('bp', hotSpots);
+        if (!this.props.location) {
+            console.log("No location provided!");
+            return hotSpots
+        }
+
+        const loc = {
+            lat: () => this.props.location.lat,
+            lng: () => this.props.location.lng
+        }
+        const dist = (latLng) => window.google.maps.geometry.spherical.computeDistanceBetween(latLng, loc);
+        return hotSpots.sort(
+            (a, b) =>
+                dist(a.geometry.location) -
+                dist(b.geometry.location));
+    }
 
     hotSort(hotSpots) {
         const secondaryText = (hotSpot) => (
@@ -110,7 +140,9 @@ class Landing extends Component {
         function helper(){
             if (self.state.criteria === 'rating') {
                 return hotSpots.sort((a, b) => b.rating - a.rating);
-            } else {
+            } else if (this.state.criteria === 'location') {
+                return this.locationSort(hotSpots);
+            } else{
                 return hotSpots;
             }
         }
