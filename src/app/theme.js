@@ -12,6 +12,7 @@ export default {
         primary3Color: '#C58100',
         accent1Color: '#980008',
         textColor: '#C58100',
+        disabledColor: '#007970',
         secondaryTextColor: fade(fullWhite, 0.7),
         alternateTextColor: '#007970',
         canvasColor: '#303030',

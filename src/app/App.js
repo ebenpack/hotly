@@ -13,6 +13,7 @@ import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import PlaceCompletion from '../placeCompletion/PlaceCompletion'
+import FontIcon from 'material-ui/FontIcon';
 
 import './App.css';
 import hotlyTheme from './theme';
@@ -130,7 +131,12 @@ class App extends Component {
         const iconElementRight = focus === consts.pages.LANDING_PAGE
             ? <div>
                 <RaisedButton
-                    label="Change My Location" onTouchTap={this.toggleLocationModal.bind(this)}
+                    label={
+                        <FontIcon
+                            className="fa fa-map-marker"
+                        />
+                    }
+                    onTouchTap={this.toggleLocationModal.bind(this)}
                 />
             </div>
             : <div>
@@ -138,9 +144,6 @@ class App extends Component {
                 <IconButton>
                     <NavigationChevronLeft onTouchTap={() => this.updateFocus(consts.pages.LANDING_PAGE)}/>
                 </IconButton>
-                <RaisedButton
-                    label="Change My Location" onTouchTap={this.toggleLocationModal.bind(this)}
-                />
             </div>
 
         return (

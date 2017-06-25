@@ -61,12 +61,14 @@ class PlaceCompletion extends Component {
                 onUpdateInput={this.updateLocationField.bind(this)}
                 // This component doesn't work like you think it works. We need to override the
                 // filter to just poop back whatever's in the data source
-                filter={(data)=>data}
+                filter={(data) => data}
                 onNewRequest={(name, index) =>
-                    this.props.selectAutocompletion(
-                        // If user hits `enter`, index will be -1, so just grab whateverthefuck
-                        this.state.locationHints[index > -1 ? index : 0]
-                    )
+                    this.state.locationHints.length > 0
+                        ? this.props.selectAutocompletion(
+                            // If user hits `enter`, index will be -1, so just grab whateverthefuck
+                            this.state.locationHints[index > -1 ? index : 0]
+                        )
+                        : null
                 }
             />
         );
