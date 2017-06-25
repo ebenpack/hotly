@@ -109,7 +109,6 @@ class Landing extends Component {
         });
         localStorage.setItem('value', value);
         localStorage.setItem('type', type);
-        this.locationSearch(type, this.props.location);
     }
 
     locationSort(hotSpots) {
