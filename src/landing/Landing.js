@@ -145,10 +145,10 @@ class Landing extends Component {
             let aRating = (a.rating || 0);
             let bRating = (b.rating || 0);
             if (bRating !== aRating) {
-                return bRating - aRating
+                return  bRating - aRating;
             }
             else {
-                if (a.name < b.name) return -1;
+                if (a.name < b.name) return - 1;
                 if (a.name > b.name) return 1;
                 return 0;
             }
@@ -164,9 +164,9 @@ class Landing extends Component {
             </span>
         );
         let temp = hotSpots;
-        if (this.state.criteria === 'rating') {
+        if (this.state.orderingType === 'rating') {
             temp = this.ratingsSort(hotSpots);
-        } else if (this.state.criteria === 'location') {
+        } else if (this.state.orderingType === 'location') {
             temp = this.locationSort(hotSpots);
         }
 
