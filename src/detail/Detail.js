@@ -60,8 +60,12 @@ class Detail extends Component {
                         <p>formatted_address: {deets.formatted_address}</p>
                         <p>international_phone_number: {deets.international_phone_number}</p>
                         <p>opening_hours.weekday_text: {deets.opening_hours && deets.opening_hours.weekday_text}</p>
-                        <GridList
-                            cellHeight={180}
+                        <GridList cellHeight={180} cols={2.2}
+                            style={{
+                                display: 'flex',
+                                flexWrap: 'nowrap',
+                                overflowX: 'auto',
+                            }}
                         >
                             {deets.photos.map((photo, i) => (
                                 <GridTile key={i}>
