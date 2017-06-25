@@ -137,7 +137,18 @@ class Landing extends Component {
         let self = this;
         function helper(){
             if (self.state.criteria === 'rating') {
-                return hotSpots.sort((a, b) => b.rating - a.rating);
+                return hotSpots.sort((a, b) => {
+                    let aRating = (a.rating || 0);
+                    let bRating = (b.rating || 0);
+                    if (bRating !== aRating) {
+                        return bRating - aRating
+                    }
+                    else {
+                        if(a.name < b.name) return -1;
+                        if(a.name > b.name) return 1;
+                        return 0;
+                    }
+                });
             } else if (this.state.criteria === 'location') {
                 return this.locationSort(hotSpots);
             } else{
