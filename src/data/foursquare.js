@@ -4,18 +4,25 @@ import consts from '../consts';
 
 
 // returns a promise
-export default function searchVenues(lat, lng, venueName) {
-    return axios.get(`${consts.foursquare.VENUE_BASE_URL}${consts.foursquare.VENUE_SEARCH_URL}`, {
-        params: {
-            ll: `${lat},${lng}`,
-            client_id: consts.foursquare.CLIENT_ID,
-            client_secret: consts.foursquare.CLIENT_SECRET,
-            intent: consts.foursquare.INTENT.CHECK_IN,
-            query: venueName,
-            v: consts.foursquare.VERSION,
-            m: consts.foursquare.MODE.FOURSQUARE
-        }
-    });
+export default function searchVenues(lat, lng, venueName=null, categories=[]) {
+    const params = {
+        ll: `${lat},${lng}`,
+        client_id: consts.foursquare.CLIENT_ID,
+        client_secret: consts.foursquare.CLIENT_SECRET,
+        intent: consts.foursquare.INTENT.CHECK_IN,
+        v: consts.foursquare.VERSION,
+        m: consts.foursquare.MODE.FOURSQUARE
+    };
+
+    if (venueName) {
+        params.query = venueName;
+    }
+
+    if (categories.length > 0) {
+        params.categoryId = categories;
+    }
+
+    return axios.get(`${consts.foursquare.VENUE_BASE_URL}${consts.foursquare.VENUE_SEARCH_URL}`, {params});
 };
 
 // returns a promise

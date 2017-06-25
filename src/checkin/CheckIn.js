@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+
 import Hotness from '../hotness/Hotness';
+import HotSpotCompletion from '../hotSpotCompletion/HotSpotCompletion';
 
 import './CheckIn.css';
 
@@ -19,8 +20,8 @@ class CheckIn extends Component {
             amenities: {},
         };
 
-        console.log(props);
         this.handleFocusChange = this.handleFocusChange.bind(this);
+        this.updateLocation = this.updateLocation.bind(this);
     }
 
     handleFocusChange(focus) {
@@ -30,19 +31,25 @@ class CheckIn extends Component {
         };
     }
 
+    updateLocation(location) {
+        this.setState({location});
+    }
+
     toggleMusic() {
         let amenities = this.state.amenities;
-        amenities['music'] = !amenities['music']
-        this.setState({amenities: amenities})
+        amenities['music'] = !amenities['music'];
+        this.setState({amenities: amenities});
     }
 
     toggleDancing() {
         let amenities = this.state.amenities;
-        amenities['dancing'] = !amenities['dancing']
-        this.setState({amenities: amenities})
+        amenities['dancing'] = !amenities['dancing'];
+        this.setState({amenities: amenities});
     }
 
     render() {
+        const {lat, lng} = this.props.location;
+
         return (
             <div className="CheckIn"
                 style={{
@@ -56,9 +63,7 @@ class CheckIn extends Component {
                             title="Enter Your Location"
                         />
                         <CardActions>
-                            <TextField
-                                name="userEnteredLocation"
-                            />
+                            <HotSpotCompletion lat={lat} lng={lng} updateLocation={this.updateLocation} />
                         </CardActions>
                     </Card>
                     :
