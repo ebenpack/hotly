@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import {withGoogleMap, GoogleMap, Marker} from "react-google-maps";
-import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import Truncate from 'react-truncate';
 
@@ -119,10 +117,6 @@ class Detail extends Component {
 
         return (
             <Card>
-                <CardHeader
-                    title="Foursquare"
-                    avatar={require('../img/Foursquare Social.png')}
-                />
                 <CardText>
                     {hereNow ? (
                         <span>
@@ -205,7 +199,7 @@ class Detail extends Component {
                                 actAsExpander={true}
                                 showExpandableButton={true}
                                 title={<HotnessDisplay rating={deets.rating}/>}
-                                subtitle={<div>{price_level} <br/> Closes at: {closing_time}<br/> {foursquareInfo()}</div>}
+                                subtitle={<div>{price_level} <br/> Closes at: {closing_time}<br/> {this.foursquareInfo()}</div>}
                                 subtitleColor='#C58100'
                             />
                             <CardTitle
