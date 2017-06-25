@@ -223,7 +223,7 @@ class Landing extends Component {
                 <RefreshIndicator
                     size={40}
                     left={-20}
-                    top={10}
+                    top={25}
                     status={'loading'}
                     loadingColor="#C58100"
                     style={{marginLeft: '50%'}}
