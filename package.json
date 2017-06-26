@@ -2,10 +2,10 @@
   "name": "hotly",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hackbit.github.io/reactriot2017-hotly",
+  "homepage": "https://ebenpack.github.io/hotly",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hackbit/reactriot2017-hotly.git"
+    "url": "git+https://github.com/ebenpack/hotly.git"
   },
   "dependencies": {
     "axios": "^0.16.2",
