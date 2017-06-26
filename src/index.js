@@ -18,6 +18,6 @@ function render(){
 window.render = render;
 
 let script = document.createElement('script');
-script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAIeffORjO-nrRi8MOe4_yZkz8GskJNk-w&libraries=places,geometry";
+script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCiXkYDE-t-9bVP5eNBBcin-MU1UVYzoUY&libraries=places,geometry";
 script.onload = render;
 document.body.appendChild(script);
